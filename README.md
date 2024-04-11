@@ -2,9 +2,22 @@
  
 ## TODO
 
-[ ] Hansuga kohtumine ja ER
+[X] Hansuga kohtumine
+[ ] Ülesande püstitus lühidalt ja ER välja mõelda
 [ ] Import (SQL*Loader mvs `oracledb`)
-[ ] Installi Tensorflow
+[ ] Installi Tensorflow [keras_2.13.0](https://github.com/tensorflow/tensorflow/releases/tag/v2.14.0)
+[ ] [mudelid1 valjund](https://github.com/kvartiil/mudelid1valjund) - ei ole kõige hilisemad variandid, kuid töötavad ja katsetamiseks sobivad. JSON failis on struktuur kenasti kirjas, 64 sisendit peaks olema kõigil.
+
+## Ülesande püstitus
+
+1. Võtta ettevõtte reg. koodi järgi selle ettevõtte viimase baasis oleva aasta kõik 64 välja õiges järjekorras `norm_sisendvektor`​ [tabelist](https://docs.google.com/spreadsheets/d/19_p8szNpIOF4oRGbxNRY_pUYOVyBF79lTWZXEh1VCjw). Kõikide väljade vaikimisi väärtus on `0` (kui datat pole, siis on 0).
+2. Kõrgemad otsad maha (Hans või Jaan - viita, kust ma saan iga 64 välja kohta info, et mis on max ehk siis näiteks, et `kaibevarad` 100 ja kui mõnel ettevõttel on 101 või miljard, siis mina kasutan ikka 100). Ma salvestaks juba andmebaasi nii kui õiget numbrit kuskil polegi vaja või kasutaks computed field ehk siis baasist tulebki juba number tipud maas. 
+3. Ettevõtte sektori järgi valida õige mudel neljast
+4. Kõigist 64 arvust lahutada vastav number `mea` [tabelist](https://docs.google.com/spreadsheets/d/19_p8szNpIOF4oRGbxNRY_pUYOVyBF79lTWZXEh1VCjw) sõltuvalt mudelist (punkt 3)
+5. Kõik 64 arvu jagada vastava numbriga `sds` [tabelist](https://docs.google.com/spreadsheets/d/19_p8szNpIOF4oRGbxNRY_pUYOVyBF79lTWZXEh1VCjw) sõltuvalt mudelist
+6. Saadud numbrid array'sse ja TS npm JS library'ga saame uued numbrid `tf.tensor2d([arv1, arv2, ..., arv64], [1, 64])` ja `tf.loadLayersModel('oige_mudl_kettal')` ja `laetudMudel.predict(andmete_array)`
+7. Nüüd misiganes mulle see viimane käsk punktist 6 annab selle annan GTTP GET requesti response'ks X-teele? Või siin vaja andmeid veel mingisse formaati viia?
+
 
 ## Märkmed
 
