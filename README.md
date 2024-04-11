@@ -2,11 +2,13 @@
  
 ## TODO
 
-[X] Hansuga kohtumine
-[ ] Ülesande püstitus lühidalt ja ER välja mõelda
-[ ] Import (SQL*Loader mvs `oracledb`)
-[ ] Installi Tensorflow [keras_2.13.0](https://github.com/tensorflow/tensorflow/releases/tag/v2.14.0)
-[ ] [mudelid1 valjund](https://github.com/kvartiil/mudelid1valjund) - ei ole kõige hilisemad variandid, kuid töötavad ja katsetamiseks sobivad. JSON failis on struktuur kenasti kirjas, 64 sisendit peaks olema kõigil.
+* ~~Jaaniga kohtumine~~
+* ~~Hansuga kohtumine~~
+* Ülesande püstitus lühidalt
+* ER välja mõelda
+* Import (`SQL*Loader` vs `oracledb` ja JS script)
+* Installi Tensorflow [keras_2.13.0](https://github.com/tensorflow/tensorflow/releases/tag/v2.14.0)
+* [mudelid1 valjund](https://github.com/kvartiil/mudelid1valjund) - ei ole kõige hilisemad variandid, kuid töötavad ja katsetamiseks sobivad. JSON failis on struktuur kenasti kirjas, 64 sisendit peaks olema kõigil. Mis ma sellega teen?
 
 ## Ülesande püstitus
 
