@@ -5,6 +5,7 @@
 * ~~Jaaniga kohtumine~~
 * ~~Hansuga kohtumine~~
 * Ülesande püstitus lühidalt
+* Hans saatis mudelid meilile
 * ER välja mõelda
 * Import (`SQL*Loader` vs `oracledb` ja JS script)
 * Installi Tensorflow [keras_2.13.0](https://github.com/tensorflow/tensorflow/releases/tag/v2.14.0)
@@ -22,6 +23,8 @@
 
 
 ## Märkmed
+
+https://github.com/kvartiil/mudelid1valjund
 
 ## id_d_taustatunnused (ID-d ja taustatunnused)
  	id
