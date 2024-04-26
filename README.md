@@ -4,23 +4,31 @@
 
 * ~~Jaaniga kohtumine~~
 * ~~Hansuga kohtumine~~
-* Ülesande püstitus lühidalt
-* Hans saatis mudelid meilile
-* ER välja mõelda
+* ~~Ülesande püstitus lühidalt~~
+* Hans saatis mudelid meilile ja https://mail.google.com/mail/u/1/#search/marre/FMfcgzGxSbvNCHtjhVNnkttbqZhJGWQZ
+* ~~ER välja mõelda~~
 * Import (`SQL*Loader` vs `oracledb` ja JS script)
 * Installi Tensorflow [keras_2.13.0](https://github.com/tensorflow/tensorflow/releases/tag/v2.14.0)
 * [mudelid1 valjund](https://github.com/kvartiil/mudelid1valjund) - ei ole kõige hilisemad variandid, kuid töötavad ja katsetamiseks sobivad. JSON failis on struktuur kenasti kirjas, 64 sisendit peaks olema kõigil. Mis ma sellega teen?
 
 ## Ülesande püstitus
 
-1. Võtta ettevõtte reg. koodi järgi selle ettevõtte viimase baasis oleva aasta kõik 64 välja õiges järjekorras `norm_sisendvektor`​ [tabelist](https://docs.google.com/spreadsheets/d/19_p8szNpIOF4oRGbxNRY_pUYOVyBF79lTWZXEh1VCjw). Kõikide väljade vaikimisi väärtus on `0` (kui datat pole, siis on 0).
-2. Kõrgemad otsad maha (Hans või Jaan - viita, kust ma saan iga 64 välja kohta info, et mis on max ehk siis näiteks, et `kaibevarad` 100 ja kui mõnel ettevõttel on 101 või miljard, siis mina kasutan ikka 100). Ma salvestaks juba andmebaasi nii kui õiget numbrit kuskil polegi vaja või kasutaks computed field ehk siis baasist tulebki juba number tipud maas. 
-3. Ettevõtte sektori järgi valida õige mudel neljast
-4. Kõigist 64 arvust lahutada vastav number `mea` [tabelist](https://docs.google.com/spreadsheets/d/19_p8szNpIOF4oRGbxNRY_pUYOVyBF79lTWZXEh1VCjw) sõltuvalt mudelist (punkt 3)
-5. Kõik 64 arvu jagada vastava numbriga `sds` [tabelist](https://docs.google.com/spreadsheets/d/19_p8szNpIOF4oRGbxNRY_pUYOVyBF79lTWZXEh1VCjw) sõltuvalt mudelist
+1. Võtta ettevõtte reg. koodi järgi Oracle'st selle ettevõtte viimase baasis oleva aasta kõik 64 välja õiges järjekorras `norm_sisendvektor`​ [tabelist](https://docs.google.com/spreadsheets/d/19_p8szNpIOF4oRGbxNRY_pUYOVyBF79lTWZXEh1VCjw). Kõikide väljade vaikimisi väärtus on `0` (kui datat pole, siis on 0). Ootan andmebaasi struktuuri ja ligipääsu.
+2. Kõrgemad otsad maha (Hans või Jaan - viita, kust ma saan iga 64 välja kohta info, et mis on max ehk siis näiteks, et `kaibevarad` 100 ja kui mõnel ettevõttel on 101 või miljard, siis mina kasutan ikka 100). Kas see 100 on näide või ongi 100 see number?
+3. Ettevõtte sektori järgi valida õige mudel neljast. Kust tableist ma selle info saan?
+4. Kõigist 64 arvust lahutada vastav number `mea` [tabelist](https://docs.google.com/spreadsheets/d/1xQovBVylikPfnDzzJF7qJADa06Ya8ozLGXptgo3dVHE) sõltuvalt mudelist (punkt 3)
+5. Kõik 64 arvu jagada vastava numbriga `sds` [tabelist](https://docs.google.com/spreadsheets/d/17mh7DMQhR5eGZYDO6faO6yTC3hE_LGEs69whnb73eKA) sõltuvalt mudelist
 6. Saadud numbrid array'sse ja TS npm JS library'ga saame uued numbrid `tf.tensor2d([arv1, arv2, ..., arv64], [1, 64])` ja `tf.loadLayersModel('oige_mudl_kettal')` ja `laetudMudel.predict(andmete_array)`
-7. Nüüd misiganes mulle see viimane käsk punktist 6 annab selle annan GTTP GET requesti response'ks X-teele? Või siin vaja andmeid veel mingisse formaati viia?
+7. Nüüd misiganes mulle see viimane käsk punktist 6 annab selle annan GTTP GET requesti response'ks X-teele? JSON formaati vaja.
 
+Uus mudel Gitist
+Viis mudelit 20st
+JSONi struktuur on olemas
+Oracle andmebaas skeem
+Mittefunktsionaalsete nõuete loetelu
+Logima ma ei pea midagi
+Loe sisse ja jäta - GTP kui palju kasutajaid
+OpenAI connecti tüüpi ühendus. Sertidega saab piirata.
 
 ## Märkmed
 
