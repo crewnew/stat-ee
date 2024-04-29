@@ -1,7 +1,11 @@
-import CompanyDto from "../src/company_data";
-import Analyzer from "../src/analyzer";
-import { testCompanyResponse } from "./test_company_response";
-
+"use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+const company_data_1 = __importDefault(require("../src/company_data"));
+const analyzer_1 = __importDefault(require("../src/analyzer"));
+const test_company_response_1 = require("./test_company_response");
 describe("ValueClamp", () => {
     test("company values should have 64 fields", () => {
         let dummy = {
@@ -71,13 +75,9 @@ describe("ValueClamp", () => {
             "Tooviljakuse_kasv": 0.02431706111,
             // "klaster": "k4_1"
         };
-
-
-        let companyData = CompanyDto.deserialize(testCompanyResponse);
-
+        let companyData = company_data_1.default.deserialize(test_company_response_1.testCompanyResponse);
         let dummyFields = Object.values(dummy).length;
-
-        expect(new Analyzer().getCompanyFields(companyData).length).toEqual(dummyFields);
-        expect(new Analyzer().getCompanyFields(companyData).length).toEqual(64);
+        expect(new analyzer_1.default().getCompanyFields(companyData).length).toEqual(dummyFields);
+        expect(new analyzer_1.default().getCompanyFields(companyData).length).toEqual(64);
     });
 });

@@ -1,26 +1,65 @@
 import CompanyData from "./company_data";
 import * as tf from '@tensorflow/tfjs';
-enum PredictionType {
-    Liquidity,
-    Efficiency,
-    Structure,
-    Profitability
-}
+import { Model } from "./model";
+import * as path from 'path';
+import Clusters from "./cluster/clusters";
 
-interface PredictionModel {
-    cluster: string;
-    type: PredictionType;
-    model: any;
-}
 
-export default class Predict {
+
+export default class Analyzer {
     
-    private async tensorflow(company: CompanyData): Promise<any> {
-        return tf.tensor2d([], [1, 64])
+    private async tensor(company: CompanyData): Promise<tf.Tensor2D> {
+
+        const clusters = new Clusters();
+        const clusterName = company.Klaster;
+
+
+
+        let companyCluster = clusters.findByName(clusterName);
+
+        if (!companyCluster) {
+            throw new Error('Cluster not found');
+        }
+       
+        let companyClusterData = companyCluster.withCompanyData(company);
+        let values = Object.values(companyClusterData).filter((value) => value !== clusterName);    
+
+        return tf.tensor2d(values, [1, 64]);
     }
 
-    public  async predict(companyData: CompanyData, predictionModel: PredictionModel): Promise<any> {
+    // Note: LoadLayersModel is only loading the model from a url, not from a local file
+    private async loadModel(cluster: string, model: Model): Promise<tf.LayersModel> {
+        let port = process.env.PORT || 3000;
+        let domain = process.env.DOMAIN || 'localhost';
+        let protocol = process.env.PROTOCOL || 'http';
+
+        let path = `${protocol}://${domain}:${port}/static/`;
+            
+        // return tf.loadLayersModel(root + 'models/' + model + '_' + cluster + '.h5');
+        return tf.loadLayersModel(path + 'efektiivsus_k4_1/model.json');
+    }
+
+
+
+    public async predict(companyData: CompanyData, model: Model): Promise<tf.Tensor> {
+        const tensor = await this.tensor(companyData);
+        const loadedModel = await this.loadModel(companyData.Klaster, model);
+
+        return (loadedModel.predict(tensor) as tf.Tensor);
+    }
+
+    public getClusterFields(cluster: String): Array<number> {
+
+        switch (cluster) {
+            case 'k4_1':
+                return [
+
+                    
+                ];
         
+            default:
+                break;
+        }
     }
 
     public getCompanyFields(data: CompanyData): Array<number> {
@@ -47,6 +86,7 @@ export default class Predict {
             data.Omakapital,
             data.Kohustused_Omakapital_kokku,
             data.Myygitulu,
+            // t != k
             data.Muud_aritulud,
             data.Muud_arikulud,
             data.Toojoukulud,
@@ -57,10 +97,6 @@ export default class Predict {
             data.ds_Raha,
             data.ds_Lyhiajalised_nouded,
             data.ds_Lyhiajalised_finantsinvesteeringud,
-            data.ds_Varud,
-            data.ds_Pohivarad,
-            data.ds_Pikaajalised_nouded,
-            data.ds_Pikaajalised_finantsinvesteeringud,
             data.ds_Varud,
             data.ds_Pohivarad,
             data.ds_Pikaajalised_nouded,

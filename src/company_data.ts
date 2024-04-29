@@ -306,6 +306,4 @@ export default class CompanyDto extends SerializableEntity {
     @JsonProperty()
     suurusklass_tasuvus_n: number
 
-
-   
 }
