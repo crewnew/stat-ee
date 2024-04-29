@@ -1,4 +1,4 @@
-{
+export let testPredicionResult = {
     "registCo": "12345678", // you get this in with GET
     "model1y1": 0.34, // each of the four models gives three numbers.. This is 1
     "model1y2": 0.26, // 2

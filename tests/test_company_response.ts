@@ -1,4 +1,6 @@
-export const testData = {
+import cleanifyJson from "../src/json_cleaner";
+
+export var testCompanyResponse = cleanifyJson({
     "JYKOOD": 11344088,
     "AASTA": 2022,
     "EMTAK": 71121,
@@ -151,4 +153,4 @@ export const testData = {
     "suurusklass_efektiivsus_n": 97835,
     "suurusklass_struktuur_n": 89221,
     "suurusklass_tasuvus_n": 99089
-}
+})
