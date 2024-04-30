@@ -14,11 +14,9 @@ class ClusterEntity extends ts_jackson_1.SerializableEntity {
     withCompanyData(company) {
         console.log(`Model used: ${company.Klaster}`);
         Object.keys(this).forEach(key => {
-            if (key === 'klaster')
-                return;
-            if (company[key]) {
+            if (Object.keys(company).includes(key) && company[key] !== 0) {
                 this[key] = this[key] / company[key];
-                console.log(`key: ${key}, value: ${this[key]} = ${this[key]} / ${company[key]}`);
+                console.log(`${this[key]} / ${company[key]} = ${this[key] / company[key]}`);
             }
         });
         return this;
@@ -281,7 +279,3 @@ __decorate([
     (0, ts_jackson_1.JsonProperty)(),
     __metadata("design:type", Number)
 ], ClusterEntity.prototype, "Tooviljakuse_kasv", void 0);
-__decorate([
-    (0, ts_jackson_1.JsonProperty)(),
-    __metadata("design:type", String)
-], ClusterEntity.prototype, "klaster", void 0);

@@ -3,7 +3,7 @@ import { logger } from './utils/logger';
 import { sendError } from './utils/errors';
 import { ReasonPhrases } from 'http-status-codes';
 import ModelRunner from './model/model_runner';
-import { dummyCompanyResponse } from './company/company_static_data';
+import dummyCompanyResponse from './company/company_static_data';
 import CompanyEntity from './company/company_entity';
 import { Model } from './model/model';
 
@@ -18,9 +18,10 @@ app.get('/', async (req: Request, res: Response) => {
 
     let dummyCompany = CompanyEntity.deserialize(dummyData);
 
+    logger.debug('Company with cluster: ' + dummyCompany.Klaster);
+
     let prediction = await analyzer.predict(dummyCompany, Model.Liquidity);
     res.send(prediction.dataSync());
-    // res.send('Hello, TypeScript Express!');
 });
 
 

@@ -6,10 +6,10 @@ This repository implements an API that analyzes company registration numbers and
 
 **Functionality:**
 
-* Listens for HTTP GET requests on the `/analyze?reg_nr=<registration_number>` endpoint (no authorization required).
+* Listens for HTTP GET requests on the `app.com/?reg_nr=<registration_number>` endpoint (no authorization required).
 * Retrieves all 64 fields for the last available year (defaulting to the previous year) from the `norm_inputvector` table in the database based on the provided company registration number.
 * Handles missing data by replacing it with 0.
-* Caps each retrieved value based on a separate table defining maximum values for each field.
+* Caps each retrieved value based on a separate table defining maximum/minimum values for each field.
 * Selects four relevant models for the company's sector (e.g., `k4_1`, `k4_2`, etc.).
 * Subtracts the corresponding `mea` value from each retrieved field based on the chosen models.
 * Divides each field by the corresponding `sds` value based on the chosen models.

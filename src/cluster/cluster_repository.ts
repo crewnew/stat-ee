@@ -1,25 +1,26 @@
 
 
-import jsonClusters from './cluster_static_data'
+import meaData from './mea_static_data'
+import sdsData from './sds_static_data'
 import ClusterEntity from './cluster_entity'
 
 export default class ClusterRepository {
 
-    findByName(clusterName: string): ClusterEntity | undefined {
-        for (let cluster in jsonClusters) {
-            if (jsonClusters[cluster].klaster === clusterName) {
-                return ClusterEntity.deserialize(jsonClusters[cluster])
+    findMeaByCluster(clusterName: string): ClusterEntity | undefined {
+        for (let cluster in meaData) {
+            if (meaData[cluster].klaster === clusterName) {
+                return ClusterEntity.deserialize(meaData[cluster])
             }
         }
         return undefined
     }
 
-    getClusters(): Array<ClusterEntity> {
-        let clusters = []
-        for (let cluster in jsonClusters) {
-            clusters.push(ClusterEntity.deserialize(jsonClusters[cluster]))
+    findSdsByCluster(clusterName: string): ClusterEntity | undefined {
+        for (let cluster in sdsData) {
+            if (meaData[cluster].klaster === clusterName) {
+                return ClusterEntity.deserialize(meaData[cluster])
+            }
         }
-        return clusters
+        return undefined
     }
-
 }

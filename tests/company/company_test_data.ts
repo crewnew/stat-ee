@@ -1,6 +1,6 @@
 import cleanifyJson from "../../src/utils/json_cleaner";
 
-export var testCompanyResponse = cleanifyJson({
+export default cleanifyJson({
     "JYKOOD": 11344088,
     "AASTA": 2022,
     "EMTAK": 71121,
