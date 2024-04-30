@@ -51,9 +51,6 @@ GET http://localhost:80000/analyze?reg_nr=123
     "model4y1": 0,
     "model4y2": 0,
     "model4y3": 0,
-    "model5y1": 0,
-    "model5y2": 0,
-    "model5y3": 0,
     "sektorNo": 0,
     "size_min": 0,
     "size_max": 0,
@@ -76,26 +73,21 @@ GET http://localhost:80000/analyze?reg_nr=123
     "PKM": 0,
     "ROA": 0,
     "ROE": 0,
-    "Eff%Sect": 0, 
-    "Eff%Size": 0,
-    "Eff%Count": 0,
-    "Liq%Sect": 0,
-    "Liq%Size": 0,
-    "Liq%Count": 0,
-    "Lev%Sect": 0,
-    "Lev%Size": 0,
-    "Lev%Count": 0,
-    "Ret%Sect": 0,
-    "Ret%Size": 0,
-    "Ret%Count": 0,
-    "Emp%Sect": 0,
-    "Emp%Size": 0,
-    "Emp%Count": 0,
+    "EffSect": 0, 
+    "EffSize": 0,
+    "EffCount": 0,
+    "LiqSect": 0,
+    "LiqSize": 0,
+    "LiqCount": 0,
+    "LevSect": 0,
+    "LevSize": 0,
+    "LevCount": 0,
+    "RetSect": 0,
+    "RetSize": 0,
+    "RetCount": 0,
+    "EmpSect": 0,
+    "EmpSize": 0,
+    "EmpCount": 0,
 }
 
 ```
-
-**Note:**
-
-* This README provides a general overview. Specific implementation details may vary depending on your chosen libraries and database technology.
-
