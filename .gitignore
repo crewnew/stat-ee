@@ -3,3 +3,4 @@
 .env
 /tfnev
 /dist
+/coverage

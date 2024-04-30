@@ -1,16 +1,16 @@
 {
   "fileCounts": {
-    "src/utils/value_clamp.ts": {
-      "correctCount": 18,
-      "totalCount": 18
-    },
     "src/company/company_entity.ts": {
-      "correctCount": 310,
-      "totalCount": 310
+      "correctCount": 308,
+      "totalCount": 308
     },
     "src/utils/logger.ts": {
       "correctCount": 127,
       "totalCount": 127
+    },
+    "src/utils/value_clamp.ts": {
+      "correctCount": 18,
+      "totalCount": 18
     },
     "src/cluster/cluster_entity.ts": {
       "correctCount": 346,
@@ -40,13 +40,25 @@
       "correctCount": 32,
       "totalCount": 32
     },
-    "src/model/model_runner.ts": {
-      "correctCount": 100,
-      "totalCount": 100
+    "src/utils/config.ts": {
+      "correctCount": 18,
+      "totalCount": 18
+    },
+    "src/prediction/response_entity.ts": {
+      "correctCount": 104,
+      "totalCount": 104
     },
     "src/utils/errors.ts": {
-      "correctCount": 239,
-      "totalCount": 239
+      "correctCount": 135,
+      "totalCount": 135
+    },
+    "src/prediction/prediction.ts": {
+      "correctCount": 4,
+      "totalCount": 4
+    },
+    "src/model/model_runner.ts": {
+      "correctCount": 282,
+      "totalCount": 282
     },
     "src/utils/converter.ts": {
       "correctCount": 38,
@@ -81,8 +93,8 @@
       "totalCount": 21
     },
     "src/app.ts": {
-      "correctCount": 68,
-      "totalCount": 68
+      "correctCount": 47,
+      "totalCount": 47
     }
   },
   "anys": [
@@ -304,8 +316,8 @@
       "kind": 1
     }
   ],
-  "percentage": 98.0453972257251,
-  "total": 1586,
-  "covered": 1555,
+  "percentage": 98.24561403508773,
+  "total": 1767,
+  "covered": 1736,
   "uncovered": 31
 }

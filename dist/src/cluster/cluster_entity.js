@@ -325,3 +325,4 @@ __decorate([
     (0, ts_jackson_1.JsonProperty)(),
     __metadata("design:type", Number)
 ], ClusterEntity.prototype, "Tooviljakuse_kasv", void 0);
+//# sourceMappingURL=cluster_entity.js.map

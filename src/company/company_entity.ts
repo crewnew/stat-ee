@@ -1,4 +1,3 @@
-import { clamp, clampBetween } from "../utils/value_clamp"
 import { JsonProperty,  SerializableEntity } from "ts-jackson"
 
 export default class CompanyEntity extends SerializableEntity {
@@ -306,9 +305,4 @@ export default class CompanyEntity extends SerializableEntity {
     suurusklass_struktuur_n: number
     @JsonProperty()
     suurusklass_tasuvus_n: number
-
-
-  
-
-   
 }

@@ -11,7 +11,7 @@
 <link href="../../../assets/source-file.css" type="text/css" rel="stylesheet">
     </head>
     <body>
-    <div style="margin-top:3em" class="ui container"><h1 class="ui header"><a href="../../../index.html">TypeScript coverage report</a></h1><table style="margin-top:2em" class="ui celled table"><thead class=""><tr class=""><th class="">Filename</th><th class="">Percent</th><th class="">Threshold</th><th class="">Total</th><th class="">Covered</th><th class="">Uncovered</th></tr></thead><tbody class=""><tr class="positive"><td class="">src/utils/errors.ts</td><td class="">100.00%</td><td class="">80%</td><td class="">239</td><td class="">239</td><td class="">0</td></tr></tbody></table><textarea id="editor" readonly="" style="margin-top:3em">import { NextFunction, Request, Response } from &#x27;express&#x27;;
+    <div style="margin-top:3em" class="ui container"><h1 class="ui header"><a href="../../../index.html">TypeScript coverage report</a></h1><table style="margin-top:2em" class="ui celled table"><thead class=""><tr class=""><th class="">Filename</th><th class="">Percent</th><th class="">Threshold</th><th class="">Total</th><th class="">Covered</th><th class="">Uncovered</th></tr></thead><tbody class=""><tr class="positive"><td class="">src/utils/errors.ts</td><td class="">100.00%</td><td class="">80%</td><td class="">135</td><td class="">135</td><td class="">0</td></tr></tbody></table><textarea id="editor" readonly="" style="margin-top:3em">import { NextFunction, Request, Response } from &#x27;express&#x27;;
 import { StatusCodes } from &#x27;http-status-codes&#x27;;
 
 
@@ -53,126 +53,22 @@ export const ERRORS = asErrors({
         status: StatusCodes.BAD_REQUEST,
         message: &#x27;The request payload is incorrect&#x27;,
     },
-    &#x27;invalid-expiry-date&#x27;: {
+    &#x27;company-not-found&#x27;: {
         status: StatusCodes.BAD_REQUEST,
-        message: &#x27;The expiry date must be greater than the current date&#x27;,
-    },
-    &#x27;disabled-mfa-totp&#x27;: {
-        status: StatusCodes.BAD_REQUEST,
-        message: &#x27;MFA TOTP is not enabled for this user&#x27;,
-    },
-    &#x27;no-totp-secret&#x27;: {
-        status: StatusCodes.BAD_REQUEST,
-        message: &#x27;OTP secret is not set for user&#x27;,
-    },
-    &#x27;disabled-user&#x27;: {
-        status: StatusCodes.UNAUTHORIZED,
-        message: &#x27;User is disabled&#x27;,
+        message: &#x27;No company found&#x27;,
         sensitive: true,
-    },
-    &#x27;invalid-email-password&#x27;: {
-        status: StatusCodes.UNAUTHORIZED,
-        message: &#x27;Incorrect email or password&#x27;,
-        sensitive: true,
-    },
-    &#x27;invalid-otp&#x27;: {
-        status: StatusCodes.UNAUTHORIZED,
-        message: &#x27;Invalid or expired OTP&#x27;,
-    },
-    &#x27;invalid-ticket&#x27;: {
-        status: StatusCodes.UNAUTHORIZED,
-        message: &#x27;Invalid or expired verification ticket&#x27;,
-    },
-    &#x27;invalid-webauthn-security-key&#x27;: {
-        status: StatusCodes.UNAUTHORIZED,
-        message: &#x27;Invalid WebAuthn security key&#x27;,
-    },
-    &#x27;invalid-webauthn-verification&#x27;: {
-        status: StatusCodes.UNAUTHORIZED,
-        message: &#x27;Invalid WebAuthn verification&#x27;,
-    },
-    &#x27;unverified-user&#x27;: {
-        status: StatusCodes.UNAUTHORIZED,
-        message: &#x27;Email is not verified&#x27;,
-    },
-    &#x27;email-already-in-use&#x27;: {
-        status: StatusCodes.CONFLICT,
-        message: &#x27;Email already in use&#x27;,
-        sensitive: true,
-    },
-    &#x27;mfa-type-not-found&#x27;: {
-        status: StatusCodes.BAD_REQUEST,
-        message: &#x27;There is no active MFA set for the user&#x27;,
-    },
-    &#x27;email-already-verified&#x27;: {
-        status: StatusCodes.BAD_REQUEST,
-        message: &quot;User&#x27;s email is already verified&quot;,
-        sensitive: true,
-    },
-    &#x27;totp-already-active&#x27;: {
-        status: StatusCodes.BAD_REQUEST,
-        message: &#x27;TOTP MFA already active&#x27;,
-    },
-    &#x27;user-not-found&#x27;: {
-        status: StatusCodes.BAD_REQUEST,
-        message: &#x27;No user found&#x27;,
-        sensitive: true,
-    },
-    &#x27;user-not-anonymous&#x27;: {
-        status: StatusCodes.BAD_REQUEST,
-        message: &#x27;Logged in user is not anonymous&#x27;,
     },
     &#x27;forbidden&#x27;: {
         status: StatusCodes.FORBIDDEN,
         message: &#x27;Forbidden&#x27;,
     },
-    &#x27;forbidden-anonymous&#x27;: {
-        status: StatusCodes.FORBIDDEN,
-        message: &#x27;Anonymous users cannot access this endpoint&#x27;,
-    },
-    &#x27;invalid-refresh-token&#x27;: {
-        status: StatusCodes.UNAUTHORIZED,
-        message: &#x27;Invalid or expired refresh token&#x27;,
-    },
-    &#x27;invalid-pat&#x27;: {
-        status: StatusCodes.UNAUTHORIZED,
-        message: &#x27;Invalid or expired personal access token&#x27;,
-    },
-    &#x27;invalid-admin-secret&#x27;: {
-        status: StatusCodes.UNAUTHORIZED,
-        message: &#x27;Invalid admin secret&#x27;,
-    },
-    &#x27;unauthenticated-user&#x27;: {
-        status: StatusCodes.UNAUTHORIZED,
-        message: &#x27;User is not logged in&#x27;,
-    },
-    &#x27;elevated-claim-required&#x27;: {
-        status: StatusCodes.FORBIDDEN,
-        message: &#x27;Elevated claim is required&#x27;,
-    },
     &#x27;forbidden-endpoint-in-production&#x27;: {
         status: StatusCodes.BAD_REQUEST,
         message: &#x27;This endpoint is only available on test environments&#x27;,
     },
-    &#x27;invalid-sign-in-method&#x27;: {
-        status: StatusCodes.BAD_REQUEST,
-        message: &#x27;Incorrect sign in method&#x27;,
-    },
-    &#x27;cannot-send-sms&#x27;: {
-        status: StatusCodes.INTERNAL_SERVER_ERROR,
-        message: &#x27;Error sending SMS&#x27;,
-    },
     &#x27;internal-error&#x27;: {
         status: StatusCodes.INTERNAL_SERVER_ERROR,
         message: &#x27;Internal server error&#x27;,
-    },
-    &#x27;invalid-oauth-configuration&#x27;: {
-        status: StatusCodes.INTERNAL_SERVER_ERROR,
-        message: &#x27;Invalid OAuth configuration&#x27;,
-    },
-    &#x27;signup-disabled&#x27;: {
-        status: StatusCodes.FORBIDDEN,
-        message: &#x27;Sign up is disabled.&#x27;,
     },
 });
 
@@ -225,7 +121,7 @@ export const sendUnspecifiedError = (res: Response, e: unknown) =&gt; {
         });
     }
 };</textarea><pre id="annotations" style="display:none">[]</pre></div>
-    <p class="footer-text">TypeScript Coverage Report generated by <a href="https://github.com/plantain-00/type-coverage">type-coverage</a> and <a href="https://github.com/alexcanessa/typescript-coverage-report">typescript-coverage-report</a> at Tue, 30 Apr 2024 12:38:19 GMT</p>
+    <p class="footer-text">TypeScript Coverage Report generated by <a href="https://github.com/plantain-00/type-coverage">type-coverage</a> and <a href="https://github.com/alexcanessa/typescript-coverage-report">typescript-coverage-report</a> at Tue, 30 Apr 2024 14:00:54 GMT</p>
     </body>
   </html>
   

@@ -11,13 +11,19 @@
 <link href="../../../assets/source-file.css" type="text/css" rel="stylesheet">
     </head>
     <body>
-    <div style="margin-top:3em" class="ui container"><h1 class="ui header"><a href="../../../index.html">TypeScript coverage report</a></h1><table style="margin-top:2em" class="ui celled table"><thead class=""><tr class=""><th class="">Filename</th><th class="">Percent</th><th class="">Threshold</th><th class="">Total</th><th class="">Covered</th><th class="">Uncovered</th></tr></thead><tbody class=""><tr class="positive"><td class="">src/model/model_runner.ts</td><td class="">100.00%</td><td class="">80%</td><td class="">100</td><td class="">100</td><td class="">0</td></tr></tbody></table><textarea id="editor" readonly="" style="margin-top:3em">import CompanyData from &quot;../company/company_entity&quot;;
+    <div style="margin-top:3em" class="ui container"><h1 class="ui header"><a href="../../../index.html">TypeScript coverage report</a></h1><table style="margin-top:2em" class="ui celled table"><thead class=""><tr class=""><th class="">Filename</th><th class="">Percent</th><th class="">Threshold</th><th class="">Total</th><th class="">Covered</th><th class="">Uncovered</th></tr></thead><tbody class=""><tr class="positive"><td class="">src/model/model_runner.ts</td><td class="">100.00%</td><td class="">80%</td><td class="">282</td><td class="">282</td><td class="">0</td></tr></tbody></table><textarea id="editor" readonly="" style="margin-top:3em">import CompanyData from &quot;../company/company_entity&quot;;
 import * as tf from &#x27;@tensorflow/tfjs&#x27;;
 import { Model } from &quot;./model&quot;;
 import ClusterRepository from &quot;../cluster/cluster_repository&quot;;
 import ClusterEntity from &quot;./../cluster/cluster_entity&quot;;
-
-
+import {storageUrl} from &#x27;../utils/config&#x27;;
+import PredictionEntity from &quot;../prediction/response_entity&quot;;
+import { logger } from &quot;../utils/logger&quot;;
+import CompanyEntity from &quot;../company/company_entity&quot;;
+import dummyCompanyResponse from &#x27;./../company/company_static_data&#x27;;
+import  { Request, Response } from &#x27;express&#x27;;
+import { sendError } from &quot;../utils/errors&quot;;
+import { Prediction } from &quot;./../prediction/prediction&quot;;
 
 export default class ModelRunner {
 
@@ -45,29 +51,124 @@ export default class ModelRunner {
 
     // Note: LoadLayersModel is only loading the model from a url, not from a local file
     private async loadModel(cluster: string, model: Model): Promise&lt;tf.LayersModel&gt; {
-        let port = process.env.PORT || 3000;
-        let domain = process.env.DOMAIN || &#x27;localhost&#x27;;
-        let protocol = process.env.PROTOCOL || &#x27;http&#x27;;
+        const storage = storageUrl();
+        return tf.loadLayersModel(storage + model + &#x27;_&#x27; + cluster + &#x27;/model.json&#x27;);
+    }
 
-        let path = `${protocol}://${domain}:${port}/static/`;
-            
-        // return tf.loadLayersModel(root + &#x27;models/&#x27; + model + &#x27;_&#x27; + cluster + &#x27;.h5&#x27;);
-        return tf.loadLayersModel(path + &#x27;efektiivsus_k4_1/model.json&#x27;);
+    public async handleRequest(req: Request, res: Response) : Promise&lt;any&gt; {
+        const regNr = req.query.reg_nr;
+
+        if (!regNr) {
+            return sendError(res, &#x27;company-not-found&#x27;);
+        }
+        let analyzer = new ModelRunner();
+        let prediction = await analyzer.response(`${regNr}`);
+        const response = prediction.serialize();
+        res.send(response);
+    }
+
+    public async response(registCo: string ) : Promise&lt;PredictionEntity&gt;  {
+        let dummyData = dummyCompanyResponse;
+        let dummyCompany = CompanyEntity.deserialize(dummyData);
+
+        logger.debug(&#x27;Company with cluster: &#x27; + dummyCompany.Klaster);
+
+        const response = new PredictionEntity();
+
+        response.registCo = registCo;
+        const liquidity = await this.predict(dummyCompany, Model.Liquidity);
+        response.model1y1 = liquidity.x;
+        response.model1y2 = liquidity.y;
+        response.model1y3 = liquidity.z;
+        const profitability = await this.predict(dummyCompany, Model.Profitability);
+        response.model2y1 = profitability.x;
+        response.model2y2 = profitability.y;
+        response.model2y3 = profitability.z;
+        const efficiency = await this.predict(dummyCompany, Model.Efficiency);
+        response.model3y1 = efficiency.x;
+        response.model3y2 = efficiency.y;
+        response.model3y3 = efficiency.z;
+        const structure = await this.predict(dummyCompany, Model.Structure);
+        response.model4y1 = structure.x;
+        response.model4y2 = structure.y;
+        response.model4y3 = structure.z;
+
+        
+
+        response.county = dummyCompany.Maakond;
+        response.kov = dummyCompany.KOV;
+
+        // response.LVKK = dummyCompany.LVKK;
+        // response.MVK = dummyCompany.MVK;
+        // response.RK = dummyCompany.RK;
+        // response.LLLK = dummyCompany.LLLK;
+        // response.LLVK = dummyCompany.LLVK;
+        // response.LLOK = dummyCompany.LLOK;
+        // response.VaKK = dummyCompany.VaKK;
+        // response.LVKaK = dummyCompany.LVKaK;
+        // response.VKK = dummyCompany.VKK;
+        // response.VK = dummyCompany.VK;
+        // response.KOS = dummyCompany.KOS;
+        // response.LKKKK = dummyCompany.LKKKK;
+        // response.PKKKK = dummyCompany.PKKKK;
+        // response.AKM = dummyCompany.AKM;
+        // response.PKM = dummyCompany.PKM;
+        // response.ROA = dummyCompany.ROA;
+        // response.ROE = dummyCompany.ROE;
+
+        // Transfering values from company to response
+        Object.keys(dummyCompany).forEach((key) =&gt; {
+            if (Object.keys(response).includes(key)) {
+                logger.debug(&#x27;Transfering values from company:&#x27; + &#x27;Key: &#x27; + key + &#x27; Value: &#x27; + dummyCompany[key]);
+                response[key] = dummyCompany[key];
+            }
+        })
+
+        // Eff
+        response.EffSect = dummyCompany.sektor_efektiivsus_protsentiil;
+        response.EffSize = 0;
+        response.EffCount = 0;
+        // Liq
+        response.LiqSect = 0;
+        response.LiqSize = 0;
+        response.LiqCount = 0;
+        // Lev
+        response.LevCount = 0;
+        response.LevSize = 0;
+        response.LevSect = 0;
+        // Ret
+        response.RetCount = 0;
+        response.RetSize = 0;
+        response.RetSect = 0;
+        // Emp
+        response.EmpCount = 0;
+        response.EmpSize = 0;
+        response.EmpSect = 0;
+        
+        return response;
     }
 
 
 
-    public async predict(companyData: CompanyData, model: Model): Promise&lt;tf.Tensor&gt; {
+    public async predict(companyData: CompanyData, model: Model): Promise&lt;Prediction&gt; {
         const data = this.prepareData(companyData);
         const tensor = await this.tensor(data);
         const loadedModel = await this.loadModel(companyData.Klaster, model);
 
-        return (loadedModel.predict(tensor) as tf.Tensor);
+        // This has to be awaited
+        const prediction = await (loadedModel.predict(tensor) as tf.Tensor);
+        const dataSync =  prediction.dataSync();
+
+        return {
+            x: dataSync[0],
+            y: dataSync[1],
+            z: dataSync[2]
+        }
     }
 
     
 }</textarea><pre id="annotations" style="display:none">[]</pre></div>
-    <p class="footer-text">TypeScript Coverage Report generated by <a href="https://github.com/plantain-00/type-coverage">type-coverage</a> and <a href="https://github.com/alexcanessa/typescript-coverage-report">typescript-coverage-report</a> at Tue, 30 Apr 2024 12:38:19 GMT</p>
+    <p class="footer-text">TypeScript Coverage Report generated by <a href="https://github.com/plantain-00/type-coverage">type-coverage</a> and <a href="https://github.com/alexcanessa/typescript-coverage-report">typescript-coverage-report</a> at Tue, 30 Apr 2024 14:00:54 GMT</p>
     </body>
   </html>
   
