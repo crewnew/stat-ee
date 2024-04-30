@@ -48,11 +48,6 @@ const loggerOptions: LoggerOptions = {
     // * Put meta fields at the root of the logged object
     metaField: null,
     responseField: null,
-    msg: (req, res) =>
-        `${req.method} ${maskUrl(req.url)} ${res.statusCode} ${
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        (res as any).responseTime
-        }ms`,
     // * Always log status, method, url, and userId when it exists
     dynamicMeta: ({ method, url, headers }, res) => {
         const { responseTime, statusCode, body } = res as Response & {

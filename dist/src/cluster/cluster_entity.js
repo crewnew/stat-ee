@@ -9,16 +9,62 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+const logger_1 = require("../utils/logger");
+const value_clamp_1 = require("../utils/value_clamp");
 const ts_jackson_1 = require("ts-jackson");
 class ClusterEntity extends ts_jackson_1.SerializableEntity {
-    withCompanyData(company) {
-        console.log(`Model used: ${company.Klaster}`);
+    // Using the `JsonProperty` decorator to map the JSON keys to the class properties.
+    static fromCompany(company) {
+        const jsonCompany = company.serialize();
+        return ClusterEntity.deserialize(jsonCompany).clamp();
+    }
+    // Divides each field by the corresponding `sds` value based on the cluster.
+    divide(cluster) {
         Object.keys(this).forEach(key => {
-            if (Object.keys(company).includes(key) && company[key] !== 0) {
-                this[key] = this[key] / company[key];
-                console.log(`${this[key]} / ${company[key]} = ${this[key] / company[key]}`);
+            if (Object.keys(cluster).includes(key) && cluster[key] !== 0) {
+                this[key] = this[key] / cluster[key];
+                logger_1.logger.debug(`${this[key]} / ${cluster[key]} = ${this[key] / cluster[key]}`);
             }
         });
+        return this;
+    }
+    substract(cluster) {
+        Object.keys(this).forEach(key => {
+            if (Object.keys(cluster).includes(key) && cluster[key] !== 0) {
+                this[key] = this[key] - cluster[key];
+                logger_1.logger.debug(`${this[key]} - ${cluster[key]} = ${this[key] - cluster[key]}`);
+            }
+        });
+        return this;
+    }
+    // Caps each retrieved value based on a separate table defining maximum values for each field.
+    clamp() {
+        this.Kaibevarad = (0, value_clamp_1.clamp)(this.Kaibevarad, 250000000);
+        this.Raha = (0, value_clamp_1.clamp)(this.Raha, 50000000);
+        this.Lyhiajalised_nouded = (0, value_clamp_1.clamp)(this.Lyhiajalised_nouded, 250000000);
+        this.Lyhiajalised_finantsinvesteeringud = (0, value_clamp_1.clamp)(this.Lyhiajalised_finantsinvesteeringud, 25000000);
+        this.Varud = (0, value_clamp_1.clamp)(this.Varud, 75000000);
+        this.Pohivarad = (0, value_clamp_1.clamp)(this.Pohivarad, 250000000);
+        this.Pikaajalised_nouded = (0, value_clamp_1.clamp)(this.Pikaajalised_nouded, 250000000);
+        this.Pikaajalised_finantsinvesteeringud = (0, value_clamp_1.clamp)(this.Pikaajalised_finantsinvesteeringud, 325000000);
+        this.Kinnisvarainvesteeringud = (0, value_clamp_1.clamp)(this.Kinnisvarainvesteeringud, 50000000);
+        this.Materiaalne_pohivara = (0, value_clamp_1.clamp)(this.Materiaalne_pohivara, 250000000);
+        this.Immateriaalne_pohivara = (0, value_clamp_1.clamp)(this.Immateriaalne_pohivara, 25000000);
+        this.Varad_kokku = (0, value_clamp_1.clamp)(this.Varad_kokku, 350000000);
+        this.Lyhiajalised_kohustused = (0, value_clamp_1.clamp)(this.Lyhiajalised_kohustused, 100000000);
+        this.Lyhiajalised_volad = (0, value_clamp_1.clamp)(this.Lyhiajalised_volad, 75000000);
+        this.Pikaajalised_kohustused = (0, value_clamp_1.clamp)(this.Pikaajalised_kohustused, 100000000);
+        this.Pikaajalised_volad = (0, value_clamp_1.clamp)(this.Pikaajalised_volad, 75000000);
+        this.Pikaajalised_laenud = (0, value_clamp_1.clamp)(this.Pikaajalised_laenud, 150000000);
+        this.Omakapital = (0, value_clamp_1.clamp)(this.Omakapital, 250000000);
+        this.Kohustused_Omakapital_kokku = (0, value_clamp_1.clamp)(this.Kohustused_Omakapital_kokku, 350000000);
+        this.Myygitulu = (0, value_clamp_1.clamp)(this.Myygitulu, 150000000);
+        this.Muud_aritulud = (0, value_clamp_1.clamp)(this.Muud_aritulud, 150000000);
+        this.Muud_arikulud = (0, value_clamp_1.clamp)(this.Muud_arikulud, 5000000);
+        this.Toojoukulud = (0, value_clamp_1.clamp)(this.Toojoukulud, 15000000);
+        this.Intressikulud = (0, value_clamp_1.clamp)(this.Intressikulud, 7500000);
+        this.Arikasum = (0, value_clamp_1.clampBetween)(this.Arikasum, -125000000, 250000000);
+        this.Aruandeaasta_kasum = (0, value_clamp_1.clampBetween)(this.Aruandeaasta_kasum, -125000000, 125000000);
         return this;
     }
 }

@@ -17,9 +17,14 @@ module.exports = {
     },
 
     testEnvironment: 'node',
-
     testMatch: [
         '**/*.test.ts?(x)',
+        'tests/*.ts'
     ],
+    collectCoverage: true,
+    coverageReporters: [
+        "text",
+        "cobertura"
+    ]
 
 };

@@ -2,7 +2,7 @@ import CompanyData from "../company/company_entity";
 import * as tf from '@tensorflow/tfjs';
 import { Model } from "./model";
 import ClusterRepository from "../cluster/cluster_repository";
-import ClusterEntity from "src/cluster/cluster_entity";
+import ClusterEntity from "./../cluster/cluster_entity";
 
 
 
@@ -22,6 +22,7 @@ export default class ModelRunner {
         // Divides each field by the corresponding `sds` value based on the cluster.
         const sdsCluster = clusters.findSdsByCluster(clusterName);
         const dividedData = sdsCluster.divide(substractedData);
+        
         return Object.values(dividedData);
     }
 
