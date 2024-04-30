@@ -1,22 +1,22 @@
 import express, { Request, Response } from 'express';
-import { logger } from './logger';
-import { sendError } from './errors';
+import { logger } from './utils/logger';
+import { sendError } from './utils/errors';
 import { ReasonPhrases } from 'http-status-codes';
-import Analyzer from './analyzer';
-import { dummyCompanyResponse } from './dummy_company_response';
-import CompanyDto from './company_data';
-import { Model } from './model';
+import ModelRunner from './model/model_runner';
+import { dummyCompanyResponse } from './company/company_static_data';
+import CompanyEntity from './company/company_entity';
+import { Model } from './model/model';
 
 const app = express();
 const port = process.env.PORT || 3000;
 
 app.use('/static',express.static('models'))
 app.get('/', async (req: Request, res: Response) => {
-    let analyzer = new Analyzer();
+    let analyzer = new ModelRunner();
 
     let dummyData = dummyCompanyResponse;
 
-    let dummyCompany = CompanyDto.deserialize(dummyData);
+    let dummyCompany = CompanyEntity.deserialize(dummyData);
 
     let prediction = await analyzer.predict(dummyCompany, Model.Liquidity);
     res.send(prediction.dataSync());

@@ -3,7 +3,7 @@
     "src/*.ts",
     "tests/*.ts",
     "models/*"
-, "src/cluster/cluster_entity.ts"  ],
+, "src/cluster/cluster_entity.ts", "src/company/company_entity.ts", "src/company/company_static_data.ts", "src/model/model_runner.ts", "src/model/model.ts", "src/utils/errors.ts", "src/utils/converter.ts", "src/utils/json_cleaner.ts", "src/utils/logger.ts", "src/utils/value_clamp.ts", "tests/cluster/cluster.test.ts", "tests/company/company_data.ts", "tests/model/model_runner.test.ts", "tests/model/model.test.ts", "tests/company/company_test_data.ts", "tests/utils/value_clamp.test.ts", "tests/model/model_test_data.ts"  ],
   "exclude": [
     "node_modules",
   ],

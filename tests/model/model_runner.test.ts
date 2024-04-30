@@ -1,6 +1,6 @@
-import CompanyDto from "../src/company_data";
-import Analyzer from "../src/analyzer";
-import { testCompanyResponse } from "./test_company_response";
+import CompanyEntity from "../../src/company/company_entity";
+import ModelRunner from "../../src/model/model_runner";
+import { testCompanyResponse } from "../company/company_test_data";
 
 describe("ValueClamp", () => {
     test("company values should have 64 fields", () => {
@@ -73,11 +73,11 @@ describe("ValueClamp", () => {
         };
 
 
-        let companyData = CompanyDto.deserialize(testCompanyResponse);
+        let companyData = CompanyEntity.deserialize(testCompanyResponse);
 
         let dummyFields = Object.values(dummy).length;
 
-        expect(new Analyzer().getCompanyFields(companyData).length).toEqual(dummyFields);
-        expect(new Analyzer().getCompanyFields(companyData).length).toEqual(64);
+        expect(new ModelRunner().getCompanyFields(companyData).length).toEqual(dummyFields);
+        expect(new ModelRunner().getCompanyFields(companyData).length).toEqual(64);
     });
 });

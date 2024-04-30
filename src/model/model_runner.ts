@@ -1,16 +1,15 @@
-import CompanyData from "./company_data";
+import CompanyData from "../company/company_entity";
 import * as tf from '@tensorflow/tfjs';
 import { Model } from "./model";
-import * as path from 'path';
-import Clusters from "./cluster/clusters";
+import ClusterRepository from "../cluster/cluster_repository";
 
 
 
-export default class Analyzer {
+export default class ModelRunner {
     
     private async tensor(company: CompanyData): Promise<tf.Tensor2D> {
 
-        const clusters = new Clusters();
+        const clusters = new ClusterRepository();
         const clusterName = company.Klaster;
 
 

@@ -1,4 +1,4 @@
-import cleanifyJson from "./json_cleaner";
+import cleanifyJson from "../utils/json_cleaner";
 
 export var dummyCompanyResponse = cleanifyJson({
     "JYKOOD": 11344088,

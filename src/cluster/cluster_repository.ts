@@ -1,13 +1,17 @@
 
 
-import jsonClusters from './json_clusters'
+import jsonClusters from './cluster_static_data'
 import ClusterEntity from './cluster_entity'
-import CompanyDto from 'src/company_data';
 
-export default class Clusters {
+export default class ClusterRepository {
 
     findByName(clusterName: string): ClusterEntity | undefined {
-        return this.getClusters().find(cluster => cluster.klaster === clusterName)
+        for (let cluster in jsonClusters) {
+            if (jsonClusters[cluster].klaster === clusterName) {
+                return ClusterEntity.deserialize(jsonClusters[cluster])
+            }
+        }
+        return undefined
     }
 
     getClusters(): Array<ClusterEntity> {

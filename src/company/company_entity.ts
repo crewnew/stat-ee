@@ -1,6 +1,7 @@
+import { clamp, clampBetween } from "../utils/value_clamp"
 import { JsonProperty,  SerializableEntity } from "ts-jackson"
 
-export default class CompanyDto extends SerializableEntity {
+export default class CompanyEntity extends SerializableEntity {
     @JsonProperty()
     JYKOOD: number
     @JsonProperty()
@@ -306,4 +307,36 @@ export default class CompanyDto extends SerializableEntity {
     @JsonProperty()
     suurusklass_tasuvus_n: number
 
+
+
+    public clamp(): CompanyEntity {
+        this.Kaibevarad = clamp(this.Kaibevarad, 250000000);
+        this.Raha = clamp(this.Raha, 50000000);
+        this.Lyhiajalised_nouded = clamp(this.Lyhiajalised_nouded, 250000000);
+        this.Lyhiajalised_finantsinvesteeringud = clamp(this.Lyhiajalised_finantsinvesteeringud, 25000000);
+        this.Varud = clamp(this.Varud, 75000000);
+        this.Pohivarad = clamp(this.Pohivarad, 250000000);
+        this.Pikaajalised_nouded = clamp(this.Pikaajalised_nouded, 250000000);
+        this.Pikaajalised_finantsinvesteeringud = clamp(this.Pikaajalised_finantsinvesteeringud, 325000000);
+        this.Kinnisvarainvesteeringud = clamp(this.Kinnisvarainvesteeringud, 50000000);
+        this.Materiaalne_pohivara = clamp(this.Materiaalne_pohivara, 250000000);
+        this.Immateriaalne_pohivara = clamp(this.Immateriaalne_pohivara, 25000000);
+        this.Varad_kokku = clamp(this.Varad_kokku, 350000000);
+        this.Lyhiajalised_kohustused = clamp(this.Lyhiajalised_kohustused, 100000000);
+        this.Lyhiajalised_volad = clamp(this.Lyhiajalised_volad, 75000000);
+        this.Pikaajalised_kohustused = clamp(this.Pikaajalised_kohustused, 100000000);
+        this.Pikaajalised_volad = clamp(this.Pikaajalised_volad, 75000000);
+        this.Pikaajalised_laenud = clamp(this.Pikaajalised_laenud, 150000000);
+        this.Omakapital = clamp(this.Omakapital, 250000000);
+        this.Kohustused_Omakapital_kokku = clamp(this.Kohustused_Omakapital_kokku, 350000000);
+        this.Myygitulu = clamp(this.Myygitulu, 150000000);
+        // this.Muud_aritulud = clamp(this.Muud_aritulud, 150000000);
+        this.Muud_arikulud = clamp(this.Muud_arikulud, 5000000);
+        this.Toojoukulud = clamp(this.Toojoukulud, 15000000);
+        this.Intressikulud = clamp(this.Intressikulud, 7500000);
+        this.Arikasum = clampBetween(this.Arikasum, -125000000, 250000000);
+        this.Aruandeaasta_kasum = clampBetween(this.Aruandeaasta_kasum, -125000000, 125000000);
+
+        return this;
+    }
 }

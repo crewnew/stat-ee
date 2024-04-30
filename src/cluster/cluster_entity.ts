@@ -1,4 +1,4 @@
-import CompanyDto from "src/company_data"
+import CompanyEntity from "src/company/company_entity"
 import { JsonProperty, SerializableEntity } from "ts-jackson"
 
 export default class ClusterEntity extends SerializableEntity {
@@ -130,13 +130,10 @@ export default class ClusterEntity extends SerializableEntity {
     Palgakasv: number
     @JsonProperty()
     Tooviljakuse_kasv: number
-    @JsonProperty()
-    klaster: string
-
-    withCompanyData(company: CompanyDto) : ClusterEntity {
+   
+    withCompanyData(company: CompanyEntity) : ClusterEntity {
         console.log(`Model used: ${company.Klaster}`)
         Object.keys(this).forEach(key => {
-            if (key === 'klaster') return;
             if (company[key]) {
                 this[key] = this[key] / company[key]
                 console.log(`key: ${key}, value: ${this[key]} = ${this[key]} / ${company[key]}`)

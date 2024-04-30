@@ -1,4 +1,4 @@
-import { Model } from "../src/model";
+import { Model } from "../../src/model/model";
 
 describe("Model", () => {
     test("should stringify to estonian", () => {
