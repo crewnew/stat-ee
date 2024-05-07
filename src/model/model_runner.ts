@@ -107,9 +107,14 @@ export default class ModelRunner {
         // 
         response.sektorNo = 0;
 
-        const size = this.parseString(dummyCompany.Ettevotte_suurusklass);
-        response.size_min = size.min;
-        response.size_max = 0;
+        try {
+            const size = this.parseString(dummyCompany.Ettevotte_suurusklass);
+            response.size_min = size.min;
+            response.size_max = size.max;
+        } catch (error) {
+            response.size_min = 0;
+            response.size_max = 0;
+        }
 
         response.county = dummyCompany.Maakond;
         response.kov = dummyCompany.KOV;
@@ -158,8 +163,16 @@ export default class ModelRunner {
 
     private parseString(str: string): { min: number; max: number } {
         const parts = str.split("_");
+        // Check if there are at least 3 parts (minimum for 1, value, and 9)
+        if (parts.length < 3) {
+            throw new Error("Invalid format: String must have at least three parts separated by underscores");
+        }
         const min = parseInt(parts[1]);
-        const max = parseInt(parts[parts.length - 1]);
+        const max = parseInt(parts[parts.length - 1]); // Access last element
+
+        if (isNaN(min) || isNaN(max)) {
+            throw new Error("Invalid format: Both values must be numbers");
+        }
         return { min, max };
     }
 
