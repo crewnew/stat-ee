@@ -45,20 +45,20 @@
       "totalCount": 18
     },
     "src/prediction/response_entity.ts": {
-      "correctCount": 104,
-      "totalCount": 104
+      "correctCount": 110,
+      "totalCount": 110
     },
     "src/utils/errors.ts": {
-      "correctCount": 135,
-      "totalCount": 135
+      "correctCount": 138,
+      "totalCount": 138
     },
     "src/prediction/prediction.ts": {
       "correctCount": 4,
       "totalCount": 4
     },
     "src/model/model_runner.ts": {
-      "correctCount": 282,
-      "totalCount": 282
+      "correctCount": 394,
+      "totalCount": 398
     },
     "src/utils/converter.ts": {
       "correctCount": 38,
@@ -98,6 +98,34 @@
     }
   },
   "anys": [
+    {
+      "file": "src/model/model_runner.ts",
+      "line": 55,
+      "character": 20,
+      "text": "error",
+      "kind": 1
+    },
+    {
+      "file": "src/model/model_runner.ts",
+      "line": 55,
+      "character": 26,
+      "text": "message",
+      "kind": 1
+    },
+    {
+      "file": "src/model/model_runner.ts",
+      "line": 54,
+      "character": 17,
+      "text": "error",
+      "kind": 1
+    },
+    {
+      "file": "src/model/model_runner.ts",
+      "line": 113,
+      "character": 17,
+      "text": "error",
+      "kind": 1
+    },
     {
       "file": "src/utils/converter.ts",
       "line": 2,
@@ -316,8 +344,8 @@
       "kind": 1
     }
   ],
-  "percentage": 98.24561403508773,
-  "total": 1767,
-  "covered": 1736,
-  "uncovered": 31
+  "percentage": 98.15010570824525,
+  "total": 1892,
+  "covered": 1857,
+  "uncovered": 35
 }

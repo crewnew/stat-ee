@@ -11,7 +11,7 @@
 <link href="../../../assets/source-file.css" type="text/css" rel="stylesheet">
     </head>
     <body>
-    <div style="margin-top:3em" class="ui container"><h1 class="ui header"><a href="../../../index.html">TypeScript coverage report</a></h1><table style="margin-top:2em" class="ui celled table"><thead class=""><tr class=""><th class="">Filename</th><th class="">Percent</th><th class="">Threshold</th><th class="">Total</th><th class="">Covered</th><th class="">Uncovered</th></tr></thead><tbody class=""><tr class="positive"><td class="">src/model/model_runner.ts</td><td class="">100.00%</td><td class="">80%</td><td class="">282</td><td class="">282</td><td class="">0</td></tr></tbody></table><textarea id="editor" readonly="" style="margin-top:3em">import CompanyData from &quot;../company/company_entity&quot;;
+    <div style="margin-top:3em" class="ui container"><h1 class="ui header"><a href="../../../index.html">TypeScript coverage report</a></h1><table style="margin-top:2em" class="ui celled table"><thead class=""><tr class=""><th class="">Filename</th><th class="">Percent</th><th class="">Threshold</th><th class="">Total</th><th class="">Covered</th><th class="">Uncovered</th></tr></thead><tbody class=""><tr class="positive"><td class="">src/model/model_runner.ts</td><td class="">98.99%</td><td class="">80%</td><td class="">398</td><td class="">394</td><td class="">4</td></tr></tbody></table><textarea id="editor" readonly="" style="margin-top:3em">import CompanyData from &quot;../company/company_entity&quot;;
 import * as tf from &#x27;@tensorflow/tfjs&#x27;;
 import { Model } from &quot;./model&quot;;
 import ClusterRepository from &quot;../cluster/cluster_repository&quot;;
@@ -58,19 +58,40 @@ export default class ModelRunner {
     public async handleRequest(req: Request, res: Response) : Promise&lt;any&gt; {
         const regNr = req.query.reg_nr;
 
-        if (!regNr) {
-            return sendError(res, &#x27;company-not-found&#x27;);
+        try {
+            if (!regNr || regNr.length === 0) {
+                throw new Error(&#x27;Company not found&#x27;);
+            }
+            let prediction = await this.response(`${regNr}`);
+            const response = prediction.serialize(); 
+            res.send(response);
+        } catch (error) {
+            switch (error.message) {
+                case &#x27;Company not found&#x27;:
+                    return sendError(res, &#x27;company-not-found&#x27;);
+                case &#x27;Cluster not found&#x27;:
+                    return sendError(res, &#x27;cluster-not-found&#x27;);
+                default:
+                    return sendError(res, &#x27;bad-request&#x27;);
+            }
         }
-        let analyzer = new ModelRunner();
-        let prediction = await analyzer.response(`${regNr}`);
-        const response = prediction.serialize();
-        res.send(response);
+        
     }
+
+   
 
     public async response(registCo: string ) : Promise&lt;PredictionEntity&gt;  {
         let dummyData = dummyCompanyResponse;
         let dummyCompany = CompanyEntity.deserialize(dummyData);
 
+        // If no response is found, throw an error
+        if (dummyCompany === undefined) {
+            throw new Error(&#x27;Company not found&#x27;);
+        }
+        // If the cluster is &#x27;muu&#x27;, throw an error
+         if (dummyCompany.Klaster === &#x27;muu&#x27;) {
+            throw new Error(&#x27;Cluster not found&#x27;);
+        }
         logger.debug(&#x27;Company with cluster: &#x27; + dummyCompany.Klaster);
 
         const response = new PredictionEntity();
@@ -92,37 +113,42 @@ export default class ModelRunner {
         response.model4y1 = structure.x;
         response.model4y2 = structure.y;
         response.model4y3 = structure.z;
+        const other = &#x27;&#x27;;
+        response.model5y1 = 0;
+        response.model5y2 = 0;
+        response.model5y3 = 0;
+        // 
+        response.sektorNo = 0;
 
-        
+        try {
+            const size = this.parseString(dummyCompany.Ettevotte_suurusklass);
+            response.size_min = size.min;
+            response.size_max = size.max;
+        } catch (error) {
+            response.size_min = 0;
+            response.size_max = 0;
+        }
 
         response.county = dummyCompany.Maakond;
         response.kov = dummyCompany.KOV;
 
-        // response.LVKK = dummyCompany.LVKK;
-        // response.MVK = dummyCompany.MVK;
-        // response.RK = dummyCompany.RK;
-        // response.LLLK = dummyCompany.LLLK;
-        // response.LLVK = dummyCompany.LLVK;
-        // response.LLOK = dummyCompany.LLOK;
-        // response.VaKK = dummyCompany.VaKK;
-        // response.LVKaK = dummyCompany.LVKaK;
-        // response.VKK = dummyCompany.VKK;
-        // response.VK = dummyCompany.VK;
-        // response.KOS = dummyCompany.KOS;
-        // response.LKKKK = dummyCompany.LKKKK;
-        // response.PKKKK = dummyCompany.PKKKK;
-        // response.AKM = dummyCompany.AKM;
-        // response.PKM = dummyCompany.PKM;
-        // response.ROA = dummyCompany.ROA;
-        // response.ROE = dummyCompany.ROE;
-
-        // Transfering values from company to response
-        Object.keys(dummyCompany).forEach((key) =&gt; {
-            if (Object.keys(response).includes(key)) {
-                logger.debug(&#x27;Transfering values from company:&#x27; + &#x27;Key: &#x27; + key + &#x27; Value: &#x27; + dummyCompany[key]);
-                response[key] = dummyCompany[key];
-            }
-        })
+        response.LVKK = dummyCompany.LVKK;
+        response.MVK = dummyCompany.MVK;
+        response.RK = dummyCompany.RK;
+        response.LLLK = dummyCompany.LLLK;
+        response.LLVK = dummyCompany.LLVK;
+        response.LLOK = dummyCompany.LLOK;
+        response.VaKK = dummyCompany.VaKK;
+        response.LVKaK = dummyCompany.LVKaK;
+        response.VKK = dummyCompany.VKK;
+        response.VK = dummyCompany.VK;
+        response.KOS = dummyCompany.KOS;
+        response.LKKKK = dummyCompany.LKKKK;https://i.imgur.com/04Te6hu_d.webp?maxwidth=760&amp;fidelity=grand
+        response.PKKKK = dummyCompany.PKKKK;
+        response.AKM = dummyCompany.AKM;
+        response.PKM = dummyCompany.PKM;
+        response.ROA = dummyCompany.ROA;
+        response.ROE = dummyCompany.ROE;
 
         // Eff
         response.EffSect = dummyCompany.sektor_efektiivsus_protsentiil;
@@ -148,6 +174,20 @@ export default class ModelRunner {
         return response;
     }
 
+    private parseString(str: string): { min: number; max: number } {
+        const parts = str.split(&quot;_&quot;);
+        // Check if there are at least 3 parts (minimum for 1, value, and 9)
+        if (parts.length &lt; 3) {
+            throw new Error(&quot;Invalid format: String must have at least three parts separated by underscores&quot;);
+        }
+        const min = parseInt(parts[1]);
+        const max = parseInt(parts[parts.length - 1]); // Access last element
+
+        if (isNaN(min) || isNaN(max)) {
+            throw new Error(&quot;Invalid format: Both values must be numbers&quot;);
+        }
+        return { min, max };
+    }
 
 
     public async predict(companyData: CompanyData, model: Model): Promise&lt;Prediction&gt; {
@@ -167,8 +207,8 @@ export default class ModelRunner {
     }
 
     
-}</textarea><pre id="annotations" style="display:none">[]</pre></div>
-    <p class="footer-text">TypeScript Coverage Report generated by <a href="https://github.com/plantain-00/type-coverage">type-coverage</a> and <a href="https://github.com/alexcanessa/typescript-coverage-report">typescript-coverage-report</a> at Tue, 30 Apr 2024 14:00:54 GMT</p>
+}</textarea><pre id="annotations" style="display:none">[{&quot;file&quot;:&quot;src/model/model_runner.ts&quot;,&quot;line&quot;:55,&quot;character&quot;:20,&quot;text&quot;:&quot;error&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;src/model/model_runner.ts&quot;,&quot;line&quot;:55,&quot;character&quot;:26,&quot;text&quot;:&quot;message&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;src/model/model_runner.ts&quot;,&quot;line&quot;:54,&quot;character&quot;:17,&quot;text&quot;:&quot;error&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;src/model/model_runner.ts&quot;,&quot;line&quot;:113,&quot;character&quot;:17,&quot;text&quot;:&quot;error&quot;,&quot;kind&quot;:1}]</pre></div>
+    <p class="footer-text">TypeScript Coverage Report generated by <a href="https://github.com/plantain-00/type-coverage">type-coverage</a> and <a href="https://github.com/alexcanessa/typescript-coverage-report">typescript-coverage-report</a> at Tue, 07 May 2024 13:11:00 GMT</p>
     </body>
   </html>
   
