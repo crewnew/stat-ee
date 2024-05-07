@@ -100,37 +100,37 @@ export default class ModelRunner {
         response.model4y1 = structure.x;
         response.model4y2 = structure.y;
         response.model4y3 = structure.z;
+        const other = '';
+        response.model5y1 = 0;
+        response.model5y2 = 0;
+        response.model5y3 = 0;
+        // 
+        response.sektorNo = 0;
 
-        
+        const size = this.parseString(dummyCompany.Ettevotte_suurusklass);
+        response.size_min = size.min;
+        response.size_max = 0;
 
         response.county = dummyCompany.Maakond;
         response.kov = dummyCompany.KOV;
 
-        // response.LVKK = dummyCompany.LVKK;
-        // response.MVK = dummyCompany.MVK;
-        // response.RK = dummyCompany.RK;
-        // response.LLLK = dummyCompany.LLLK;
-        // response.LLVK = dummyCompany.LLVK;
-        // response.LLOK = dummyCompany.LLOK;
-        // response.VaKK = dummyCompany.VaKK;
-        // response.LVKaK = dummyCompany.LVKaK;
-        // response.VKK = dummyCompany.VKK;
-        // response.VK = dummyCompany.VK;
-        // response.KOS = dummyCompany.KOS;
-        // response.LKKKK = dummyCompany.LKKKK;
-        // response.PKKKK = dummyCompany.PKKKK;
-        // response.AKM = dummyCompany.AKM;
-        // response.PKM = dummyCompany.PKM;
-        // response.ROA = dummyCompany.ROA;
-        // response.ROE = dummyCompany.ROE;
-
-        // Transfering values from company to response
-        Object.keys(dummyCompany).forEach((key) => {
-            if (Object.keys(response).includes(key)) {
-                logger.debug('Transfering values from company:' + 'Key: ' + key + ' Value: ' + dummyCompany[key]);
-                response[key] = dummyCompany[key];
-            }
-        })
+        response.LVKK = dummyCompany.LVKK;
+        response.MVK = dummyCompany.MVK;
+        response.RK = dummyCompany.RK;
+        response.LLLK = dummyCompany.LLLK;
+        response.LLVK = dummyCompany.LLVK;
+        response.LLOK = dummyCompany.LLOK;
+        response.VaKK = dummyCompany.VaKK;
+        response.LVKaK = dummyCompany.LVKaK;
+        response.VKK = dummyCompany.VKK;
+        response.VK = dummyCompany.VK;
+        response.KOS = dummyCompany.KOS;
+        response.LKKKK = dummyCompany.LKKKK;https://i.imgur.com/04Te6hu_d.webp?maxwidth=760&fidelity=grand
+        response.PKKKK = dummyCompany.PKKKK;
+        response.AKM = dummyCompany.AKM;
+        response.PKM = dummyCompany.PKM;
+        response.ROA = dummyCompany.ROA;
+        response.ROE = dummyCompany.ROE;
 
         // Eff
         response.EffSect = dummyCompany.sektor_efektiivsus_protsentiil;
@@ -156,6 +156,12 @@ export default class ModelRunner {
         return response;
     }
 
+    private parseString(str: string): { min: number; max: number } {
+        const parts = str.split("_");
+        const min = parseInt(parts[1]);
+        const max = parseInt(parts[parts.length - 1]);
+        return { min, max };
+    }
 
 
     public async predict(companyData: CompanyData, model: Model): Promise<Prediction> {

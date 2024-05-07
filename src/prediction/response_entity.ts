@@ -28,6 +28,12 @@ export default class ResponseEntity extends SerializableEntity {
     @JsonProperty()
     model4y3: number
     @JsonProperty()
+    model5y1: number
+    @JsonProperty()
+    model5y2: number
+    @JsonProperty()
+    model5y3: number
+    @JsonProperty()
     sektorNo: number
     @JsonProperty()
     size_min: number
