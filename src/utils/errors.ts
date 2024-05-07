@@ -42,8 +42,11 @@ export const ERRORS = asErrors({
     },
     'company-not-found': {
         status: StatusCodes.BAD_REQUEST,
-        message: 'No company found',
-        sensitive: true,
+        message: 'Ettevõtet ei leitud.',
+    },
+    'cluster-not-found': {
+        status: StatusCodes.NOT_FOUND,
+        message: 'Klaster muu.',
     },
     'forbidden': {
         status: StatusCodes.FORBIDDEN,

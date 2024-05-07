@@ -45,19 +45,40 @@ export default class ModelRunner {
     public async handleRequest(req: Request, res: Response) : Promise<any> {
         const regNr = req.query.reg_nr;
 
-        if (!regNr) {
-            return sendError(res, 'company-not-found');
+        try {
+            if (!regNr || regNr.length === 0) {
+                throw new Error('Company not found');
+            }
+            let prediction = await this.response(`${regNr}`);
+            const response = prediction.serialize(); 
+            res.send(response);
+        } catch (error) {
+            switch (error.message) {
+                case 'Company not found':
+                    return sendError(res, 'company-not-found');
+                case 'Cluster not found':
+                    return sendError(res, 'cluster-not-found');
+                default:
+                    return sendError(res, 'bad-request');
+            }
         }
-        let analyzer = new ModelRunner();
-        let prediction = await analyzer.response(`${regNr}`);
-        const response = prediction.serialize();
-        res.send(response);
+        
     }
+
+   
 
     public async response(registCo: string ) : Promise<PredictionEntity>  {
         let dummyData = dummyCompanyResponse;
         let dummyCompany = CompanyEntity.deserialize(dummyData);
 
+        // If no response is found, throw an error
+        if (dummyCompany === undefined) {
+            throw new Error('Company not found');
+        }
+        // If the cluster is 'muu', throw an error
+         if (dummyCompany.Klaster === 'muu') {
+            throw new Error('Cluster not found');
+        }
         logger.debug('Company with cluster: ' + dummyCompany.Klaster);
 
         const response = new PredictionEntity();
