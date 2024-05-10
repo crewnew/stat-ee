@@ -80,33 +80,61 @@ export default class ResponseEntity extends SerializableEntity {
     @JsonProperty()
     EffSect: number
     @JsonProperty()
-    EffSize: number
+    Eff_n_Sect: number
+    @JsonProperty()
+    EffSize: number   
+    @JsonProperty()
+    Eff_n_Size: number
     @JsonProperty()
     EffCount: number
     @JsonProperty()
+    Eff_n_Count: number
+    @JsonProperty()
     LiqSect: number
+    @JsonProperty()
+    Liq_n_Sect: number
     @JsonProperty()
     LiqSize: number
     @JsonProperty()
+    Liq_n_Size: number
+    @JsonProperty()
     LiqCount: number
+    @JsonProperty()
+    Liq_n_Count: number
     @JsonProperty()
     LevSect: number
     @JsonProperty()
+    Lev_n_Sect: number
+    @JsonProperty()
     LevSize: number
+    @JsonProperty()
+    Lev_n_Size: number
     @JsonProperty()
     LevCount: number
     @JsonProperty()
+    Lev_n_Count: number
+    @JsonProperty()
     RetSect: number
+    @JsonProperty()
+    Ret_n_Sect: number
     @JsonProperty()
     RetSize: number
     @JsonProperty()
+    Ret_n_Size: number
+    @JsonProperty()
     RetCount: number
+    @JsonProperty()
+    Ret_n_Count: number
     @JsonProperty()
     EmpSect: number
     @JsonProperty()
+    Emp_n_Sect: number
+    @JsonProperty()
     EmpSize: number
     @JsonProperty()
+    Emp_n_Size: number
+    @JsonProperty()
     EmpCount: number
-
-
+    @JsonProperty()
+    Emp_n_Count: number
 }

@@ -139,24 +139,39 @@ export default class ModelRunner {
 
         // Eff
         response.EffSect = dummyCompany.sektor_efektiivsus_protsentiil;
+        response.Eff_n_Sect = 0;
         response.EffSize = 0;
+        response.Eff_n_Size = 0;
         response.EffCount = 0;
+        response.Eff_n_Count = 0;
         // Liq
         response.LiqSect = 0;
+        response.Liq_n_Sect = 0;
         response.LiqSize = 0;
+        response.Liq_n_Size = 0;
         response.LiqCount = 0;
+        response.Liq_n_Count = 0;
         // Lev
         response.LevCount = 0;
+        response.Lev_n_Count = 0;
         response.LevSize = 0;
+        response.Lev_n_Size = 0;
         response.LevSect = 0;
+        response.Lev_n_Sect = 0;
         // Ret
         response.RetCount = 0;
+        response.Ret_n_Count = 0;
         response.RetSize = 0;
+        response.Ret_n_Size = 0;
         response.RetSect = 0;
+        response.Ret_n_Sect = 0;
         // Emp
         response.EmpCount = 0;
+        response.Emp_n_Count = 0;
         response.EmpSize = 0;
+        response.Emp_n_Size = 0;
         response.EmpSect = 0;
+        response.Emp_n_Sect = 0;
         
         return response;
     }
