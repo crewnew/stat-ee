@@ -65,6 +65,7 @@ export default class ModelRunner {
 
     public async response(registCo: number ) : Promise<PredictionEntity>  {
         let repository =  new CompanyRepository();
+        // const company = CompanyEntity.deserialize(dummyCompanyResponse);
         let company = await repository.findById(registCo);
 
         const response = new PredictionEntity();

@@ -38,7 +38,7 @@ GET http://localhost:8000/?reg_nr=123
 
 ```json
 {
-  "registCo": "123",
+  "registCo": 1,
   "model1y1": 0.4832223653793335,
   "model1y2": 0.455415278673172,
   "model1y3": 0.06136232241988182,
@@ -77,20 +77,35 @@ GET http://localhost:8000/?reg_nr=123
   "ROA": 0.02586264657,
   "ROE": 0.04314192205,
   "EffSect": 0.0797271167,
+  "Eff_n_Sect": 0,
   "EffSize": 0,
+  "Eff_n_Size": 0,
   "EffCount": 0,
+  "Eff_n_Count": 0,
   "LiqSect": 0,
+  "Liq_n_Sect": 0,
   "LiqSize": 0,
+  "Liq_n_Size": 0,
   "LiqCount": 0,
+  "Liq_n_Count": 0,
   "LevSect": 0,
+  "Lev_n_Sect": 0,
   "LevSize": 0,
+  "Lev_n_Size": 0,
   "LevCount": 0,
+  "Lev_n_Count": 0,
   "RetSect": 0,
+  "Ret_n_Sect": 0,
   "RetSize": 0,
+  "Ret_n_Size": 0,
   "RetCount": 0,
+  "Ret_n_Count": 0,
   "EmpSect": 0,
+  "Emp_n_Sect": 0,
   "EmpSize": 0,
-  "EmpCount": 0
+  "Emp_n_Size": 0,
+  "EmpCount": 0,
+  "Emp_n_Count": 0
 }
 
 ```
