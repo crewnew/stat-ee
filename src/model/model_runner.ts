@@ -3,17 +3,34 @@ import * as tf from '@tensorflow/tfjs';
 import { Model } from "./model";
 import ClusterRepository from "../cluster/cluster_repository";
 import ClusterEntity from "./../cluster/cluster_entity";
-import {storageUrl} from '../utils/config';
 import PredictionEntity from "../prediction/response_entity";
-import { logger } from "../utils/logger";
-import CompanyEntity from "../company/company_entity";
 import CompanyRepository from "../company/company_repository";
-import dummyCompanyResponse from './../company/company_static_data';
 import  { Request, Response } from 'express';
 import { sendError } from "../utils/errors";
 import { Prediction } from "./../prediction/prediction";
 
 export default class ModelRunner {
+    public async handleRequest(req: Request, res: Response): Promise<any> {
+        try {
+            const id = parseInt(req.params.id as string);
+            let prediction = await this.response(id);
+            const response = prediction.serialize();
+            res.send(response);
+        } catch (error) {
+            switch (error.message) {
+                case 'Company not found':
+                    return sendError(res, 'company-not-found');
+                case 'Cluster not found':
+                    return sendError(res, 'cluster-not-found');
+                default:
+                    console.log(error);
+                    return sendError(res, 'bad-request');
+            }
+        }
+
+    }
+
+
     private prepareData(company: CompanyData): Array<number> {
         const clusters = new ClusterRepository();
         const clusterName = company.Klaster;
@@ -38,35 +55,14 @@ export default class ModelRunner {
 
     // Note: LoadLayersModel is only loading the model from a url, not from a local file
     private async loadModel(cluster: string, model: Model): Promise<tf.LayersModel> {
-        const storage = storageUrl();
-        return tf.loadLayersModel(storage + model + '_' + cluster + '/model.json');
+        return tf.loadLayersModel(`http://localhost:${process.env.PORT}` + '/static/' + model + '_' + cluster + '/model.json');
     }
 
-    public async handleRequest(req: Request, res: Response) : Promise<any> {
-        const regNr = req.query.reg_nr;
 
-        try {
-            const id = parseInt(regNr as string);
-            let prediction = await this.response(id);
-            const response = prediction.serialize(); 
-            res.send(response);
-        } catch (error) {
-            switch (error.message) {
-                case 'Company not found':
-                    return sendError(res, 'company-not-found');
-                case 'Cluster not found':
-                    return sendError(res, 'cluster-not-found');
-                default:
-                    return sendError(res, 'bad-request');
-            }
-        }
-        
-    }
-
-    public async response(registCo: number ) : Promise<PredictionEntity>  {
+    private async response(registCo: number ) : Promise<PredictionEntity>  {
         let repository =  new CompanyRepository();
-        // const company = CompanyEntity.deserialize(dummyCompanyResponse);
-        let company = await repository.findById(registCo);
+        // TODO: Change this with findById when the query is implemented
+        let company = await repository.fakeFindById(registCo);
 
         const response = new PredictionEntity();
 
@@ -179,7 +175,7 @@ export default class ModelRunner {
     }
 
 
-    public async predict(companyData: CompanyData, model: Model): Promise<Prediction> {
+    private async predict(companyData: CompanyData, model: Model): Promise<Prediction> {
         const data = this.prepareData(companyData);
         const tensor = await this.tensor(data);
         const loadedModel = await this.loadModel(companyData.Klaster, model);

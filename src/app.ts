@@ -6,10 +6,10 @@ import ModelRunner from './model/model_runner';
 
 
 const app = express();
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 80;
 
 app.use('/static',express.static('models'))
-app.get('/', async (req: Request, res: Response) => new ModelRunner().handleRequest(req, res));
+app.get('/eestat/1/elujoud/:id', async (req: Request, res: Response) => new ModelRunner().handleRequest(req, res));
 
 /**
  * GET /healthz
@@ -27,4 +27,3 @@ app.use('*', (_req, res) => {
 app.listen(port, () => {
     logger.info(`Running on port ${port}`);
 });
-
