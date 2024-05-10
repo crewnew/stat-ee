@@ -7,13 +7,13 @@ import {storageUrl} from '../utils/config';
 import PredictionEntity from "../prediction/response_entity";
 import { logger } from "../utils/logger";
 import CompanyEntity from "../company/company_entity";
+import CompanyRepository from "../company/company_repository";
 import dummyCompanyResponse from './../company/company_static_data';
 import  { Request, Response } from 'express';
 import { sendError } from "../utils/errors";
 import { Prediction } from "./../prediction/prediction";
 
 export default class ModelRunner {
-
     private prepareData(company: CompanyData): Array<number> {
         const clusters = new ClusterRepository();
         const clusterName = company.Klaster;
@@ -46,10 +46,8 @@ export default class ModelRunner {
         const regNr = req.query.reg_nr;
 
         try {
-            if (!regNr || regNr.length === 0) {
-                throw new Error('Company not found');
-            }
-            let prediction = await this.response(`${regNr}`);
+            const id = parseInt(regNr as string);
+            let prediction = await this.response(id);
             const response = prediction.serialize(); 
             res.send(response);
         } catch (error) {
@@ -65,38 +63,26 @@ export default class ModelRunner {
         
     }
 
-   
-
-    public async response(registCo: string ) : Promise<PredictionEntity>  {
-        let dummyData = dummyCompanyResponse;
-        let dummyCompany = CompanyEntity.deserialize(dummyData);
-
-        // If no response is found, throw an error
-        if (dummyCompany === undefined) {
-            throw new Error('Company not found');
-        }
-        // If the cluster is 'muu', throw an error
-         if (dummyCompany.Klaster === 'muu') {
-            throw new Error('Cluster not found');
-        }
-        logger.debug('Company with cluster: ' + dummyCompany.Klaster);
+    public async response(registCo: number ) : Promise<PredictionEntity>  {
+        let repository =  new CompanyRepository();
+        let company = await repository.findById(registCo);
 
         const response = new PredictionEntity();
 
         response.registCo = registCo;
-        const liquidity = await this.predict(dummyCompany, Model.Liquidity);
+        const liquidity = await this.predict(company, Model.Liquidity);
         response.model1y1 = liquidity.x;
         response.model1y2 = liquidity.y;
         response.model1y3 = liquidity.z;
-        const profitability = await this.predict(dummyCompany, Model.Profitability);
+        const profitability = await this.predict(company, Model.Profitability);
         response.model2y1 = profitability.x;
         response.model2y2 = profitability.y;
         response.model2y3 = profitability.z;
-        const efficiency = await this.predict(dummyCompany, Model.Efficiency);
+        const efficiency = await this.predict(company, Model.Efficiency);
         response.model3y1 = efficiency.x;
         response.model3y2 = efficiency.y;
         response.model3y3 = efficiency.z;
-        const structure = await this.predict(dummyCompany, Model.Structure);
+        const structure = await this.predict(company, Model.Structure);
         response.model4y1 = structure.x;
         response.model4y2 = structure.y;
         response.model4y3 = structure.z;
@@ -108,7 +94,7 @@ export default class ModelRunner {
         response.sektorNo = 0;
 
         try {
-            const size = this.parseString(dummyCompany.Ettevotte_suurusklass);
+            const size = this.parseString(company.Ettevotte_suurusklass);
             response.size_min = size.min;
             response.size_max = size.max;
         } catch (error) {
@@ -116,29 +102,29 @@ export default class ModelRunner {
             response.size_max = 0;
         }
 
-        response.county = dummyCompany.Maakond;
-        response.kov = dummyCompany.KOV;
+        response.county = company.Maakond;
+        response.kov = company.KOV;
 
-        response.LVKK = dummyCompany.LVKK;
-        response.MVK = dummyCompany.MVK;
-        response.RK = dummyCompany.RK;
-        response.LLLK = dummyCompany.LLLK;
-        response.LLVK = dummyCompany.LLVK;
-        response.LLOK = dummyCompany.LLOK;
-        response.VaKK = dummyCompany.VaKK;
-        response.LVKaK = dummyCompany.LVKaK;
-        response.VKK = dummyCompany.VKK;
-        response.VK = dummyCompany.VK;
-        response.KOS = dummyCompany.KOS;
-        response.LKKKK = dummyCompany.LKKKK;https://i.imgur.com/04Te6hu_d.webp?maxwidth=760&fidelity=grand
-        response.PKKKK = dummyCompany.PKKKK;
-        response.AKM = dummyCompany.AKM;
-        response.PKM = dummyCompany.PKM;
-        response.ROA = dummyCompany.ROA;
-        response.ROE = dummyCompany.ROE;
+        response.LVKK = company.LVKK;
+        response.MVK = company.MVK;
+        response.RK = company.RK;
+        response.LLLK = company.LLLK;
+        response.LLVK = company.LLVK;
+        response.LLOK = company.LLOK;
+        response.VaKK = company.VaKK;
+        response.LVKaK = company.LVKaK;
+        response.VKK = company.VKK;
+        response.VK = company.VK;
+        response.KOS = company.KOS;
+        response.LKKKK = company.LKKKK;
+        response.PKKKK = company.PKKKK;
+        response.AKM = company.AKM;
+        response.PKM = company.PKM;
+        response.ROA = company.ROA;
+        response.ROE = company.ROE;
 
         // Eff
-        response.EffSect = dummyCompany.sektor_efektiivsus_protsentiil;
+        response.EffSect = company.sektor_efektiivsus_protsentiil;
         response.Eff_n_Sect = 0;
         response.EffSize = 0;
         response.Eff_n_Size = 0;

@@ -2,7 +2,7 @@ import { JsonProperty, SerializableEntity } from "ts-jackson"
 
 export default class ResponseEntity extends SerializableEntity {
     @JsonProperty()
-    registCo: string
+    registCo: number
     @JsonProperty()
     model1y1: number
     @JsonProperty()
