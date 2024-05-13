@@ -6,7 +6,7 @@ import ModelRunner from './model/model_runner';
 
 
 const app = express();
-const port = process.env.PORT || 80;
+export const port = 80;
 
 app.use('/static',express.static('models'))
 app.get('/eestat/1/elujoud/:id', async (req: Request, res: Response) => new ModelRunner().handleRequest(req, res));

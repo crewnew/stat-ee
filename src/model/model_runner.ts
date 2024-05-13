@@ -8,7 +8,7 @@ import CompanyRepository from "../company/company_repository";
 import  { Request, Response } from 'express';
 import { sendError } from "../utils/errors";
 import { Prediction } from "./../prediction/prediction";
-
+import {port} from "../app";
 export default class ModelRunner {
     public async handleRequest(req: Request, res: Response): Promise<any> {
         try {
@@ -55,7 +55,8 @@ export default class ModelRunner {
 
     // Note: LoadLayersModel is only loading the model from a url, not from a local file
     private async loadModel(cluster: string, model: Model): Promise<tf.LayersModel> {
-        return tf.loadLayersModel(`http://localhost:${process.env.PORT}` + '/static/' + model + '_' + cluster + '/model.json');
+
+        return tf.loadLayersModel(`http://localhost:${port}` + '/static/' + model + '_' + cluster + '/model.json');
     }
 
 
