@@ -78,63 +78,63 @@ export default class ResponseEntity extends SerializableEntity {
     @JsonProperty()
     ROE: number
     @JsonProperty()
-    EffSect: number
+    Eff_p_Sect: number
     @JsonProperty()
     Eff_n_Sect: number
     @JsonProperty()
-    EffSize: number   
+    Eff_p_Size: number
     @JsonProperty()
     Eff_n_Size: number
     @JsonProperty()
-    EffCount: number
+    Eff_p_Count: number
     @JsonProperty()
     Eff_n_Count: number
     @JsonProperty()
-    LiqSect: number
+    Liq_p_Sect: number
     @JsonProperty()
     Liq_n_Sect: number
     @JsonProperty()
-    LiqSize: number
+    Liq_p_Size: number
     @JsonProperty()
     Liq_n_Size: number
     @JsonProperty()
-    LiqCount: number
+    Liq_p_Count: number
     @JsonProperty()
     Liq_n_Count: number
     @JsonProperty()
-    LevSect: number
+    Lev_p_Sect: number
     @JsonProperty()
     Lev_n_Sect: number
     @JsonProperty()
-    LevSize: number
+    Lev_p_Size: number
     @JsonProperty()
     Lev_n_Size: number
     @JsonProperty()
-    LevCount: number
+    Lev_p_Count: number
     @JsonProperty()
     Lev_n_Count: number
     @JsonProperty()
-    RetSect: number
+    Ret_p_Sect: number
     @JsonProperty()
     Ret_n_Sect: number
     @JsonProperty()
-    RetSize: number
+    Ret_p_Size: number
     @JsonProperty()
     Ret_n_Size: number
     @JsonProperty()
-    RetCount: number
+    Ret_p_Count: number
     @JsonProperty()
     Ret_n_Count: number
     @JsonProperty()
-    EmpSect: number
+    Emp_p_Sect: number
     @JsonProperty()
     Emp_n_Sect: number
     @JsonProperty()
-    EmpSize: number
+    Emp_p_Size: number
     @JsonProperty()
     Emp_n_Size: number
     @JsonProperty()
-    EmpCount: number
+    Emp_p_Count: number
     @JsonProperty()
     Emp_n_Count: number
 }

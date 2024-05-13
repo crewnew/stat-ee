@@ -121,39 +121,39 @@ export default class ModelRunner {
         response.ROE = company.ROE;
 
         // Eff
-        response.EffSect = company.sektor_efektiivsus_protsentiil;
+        response.Eff_p_Sect = company.sektor_efektiivsus_protsentiil;
         response.Eff_n_Sect = 0;
-        response.EffSize = 0;
+        response.Eff_p_Size = 0;
         response.Eff_n_Size = 0;
-        response.EffCount = 0;
+        response.Eff_p_Count = 0;
         response.Eff_n_Count = 0;
         // Liq
-        response.LiqSect = 0;
+        response.Liq_p_Sect = 0;
         response.Liq_n_Sect = 0;
-        response.LiqSize = 0;
+        response.Liq_p_Size = 0;
         response.Liq_n_Size = 0;
-        response.LiqCount = 0;
+        response.Liq_p_Count = 0;
         response.Liq_n_Count = 0;
         // Lev
-        response.LevCount = 0;
+        response.Lev_p_Count = 0;
         response.Lev_n_Count = 0;
-        response.LevSize = 0;
+        response.Lev_p_Size = 0;
         response.Lev_n_Size = 0;
-        response.LevSect = 0;
+        response.Lev_p_Sect = 0;
         response.Lev_n_Sect = 0;
         // Ret
-        response.RetCount = 0;
+        response.Ret_p_Count = 0;
         response.Ret_n_Count = 0;
-        response.RetSize = 0;
+        response.Ret_p_Size = 0;
         response.Ret_n_Size = 0;
-        response.RetSect = 0;
+        response.Ret_p_Sect = 0;
         response.Ret_n_Sect = 0;
         // Emp
-        response.EmpCount = 0;
+        response.Emp_p_Count = 0;
         response.Emp_n_Count = 0;
-        response.EmpSize = 0;
+        response.Emp_p_Size = 0;
         response.Emp_n_Size = 0;
-        response.EmpSect = 0;
+        response.Emp_p_Sect = 0;
         response.Emp_n_Sect = 0;
         
         return response;
