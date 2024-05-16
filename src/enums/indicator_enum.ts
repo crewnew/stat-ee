@@ -1,6 +1,7 @@
-export enum Model {
+export enum Indicator {
     Liquidity = 'likviidsus',
     Efficiency = 'efektiivsus',
     Structure = 'struktuur',
-    Profitability = 'tasuvus'
+    Profitability = 'tasuvus',
+    Growth = 'kasvu'
 }

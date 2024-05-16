@@ -1,4 +1,4 @@
-import CompanyEntity from "../../src/company/company_entity";
+import CompanyEntity from "../../src/entities/company_entity";
 import testCompanyResponse from "./company_test_data";
 
 describe("Company Data", () => {

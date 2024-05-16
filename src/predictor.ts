@@ -1,14 +1,17 @@
-import CompanyData from "../company/company_entity";
+import CompanyData from "./entities/company_entity";
+import { findMeaByCluster } from "./data_sources/mea_static_data";
+import { findSdsByCluster } from "./data_sources/sds_static_data";
+import { fakeFindById,findById } from "./data_sources/company_static_data";
 import * as tf from '@tensorflow/tfjs';
-import { Model } from "./model";
-import ClusterRepository from "../cluster/cluster_repository";
-import ClusterEntity from "./../cluster/cluster_entity";
-import PredictionEntity from "../prediction/response_entity";
-import CompanyRepository from "../company/company_repository";
+import { Indicator } from "./enums/indicator_enum";
+import ClusterEntity from "./entities/cluster_entity";
+import PredictionEntity from "./entities/response_entity";
 import  { Request, Response } from 'express';
-import { sendError } from "../utils/errors";
-import { Prediction } from "./../prediction/prediction";
-import {port} from "../app";
+import { sendError } from "./utils/errors";
+import { Array3D, Prediction } from "./utils/interfaces";
+import {port} from "./app";
+
+import getGrowthData from "./data_sources/growth_static_data";
 export default class ModelRunner {
     public async handleRequest(req: Request, res: Response): Promise<any> {
         try {
@@ -32,18 +35,17 @@ export default class ModelRunner {
 
 
     private prepareData(company: CompanyData): Array<number> {
-        const clusters = new ClusterRepository();
         const clusterName = company.Klaster;
 
         // Retrieves the cluster values for the company.
         const companyCluster = ClusterEntity.fromCompany(company);
 
         // Subtracts the corresponding `mea` value from each retrieved field based on the cluster.
-        const meaCluster = clusters.findMeaByCluster(clusterName);
+        const meaCluster = findMeaByCluster(clusterName);
         const substractedData = meaCluster.substract(companyCluster);
 
         // Divides each field by the corresponding `sds` value based on the cluster.
-        const sdsCluster = clusters.findSdsByCluster(clusterName);
+        const sdsCluster = findSdsByCluster(clusterName);
         const dividedData = sdsCluster.divide(substractedData);
         
         return Object.values(dividedData);
@@ -54,41 +56,40 @@ export default class ModelRunner {
     }
 
     // Note: LoadLayersModel is only loading the model from a url, not from a local file
-    private async loadModel(cluster: string, model: Model): Promise<tf.LayersModel> {
+    private async loadModel(cluster: string, model: Indicator): Promise<tf.LayersModel> {
 
         return tf.loadLayersModel(`http://localhost:${port}` + '/static/' + model + '_' + cluster + '/model.json');
     }
 
 
     private async response(registCo: number ) : Promise<PredictionEntity>  {
-        let repository =  new CompanyRepository();
         // TODO: Change this with findById when the query is implemented
-        let company = await repository.fakeFindById(registCo);
+        let company = await fakeFindById(registCo);
 
         const response = new PredictionEntity();
 
         response.registCo = registCo;
-        const liquidity = await this.predict(company, Model.Liquidity);
+        const liquidity = await this.predict(company, Indicator.Liquidity);
         response.model1y1 = liquidity.x;
         response.model1y2 = liquidity.y;
         response.model1y3 = liquidity.z;
-        const profitability = await this.predict(company, Model.Profitability);
+        const profitability = await this.predict(company, Indicator.Profitability);
         response.model2y1 = profitability.x;
         response.model2y2 = profitability.y;
         response.model2y3 = profitability.z;
-        const efficiency = await this.predict(company, Model.Efficiency);
+        const efficiency = await this.predict(company, Indicator.Efficiency);
         response.model3y1 = efficiency.x;
         response.model3y2 = efficiency.y;
         response.model3y3 = efficiency.z;
-        const structure = await this.predict(company, Model.Structure);
+        const structure = await this.predict(company, Indicator.Structure);
         response.model4y1 = structure.x;
         response.model4y2 = structure.y;
         response.model4y3 = structure.z;
-        const other = '';
-        response.model5y1 = 0;
-        response.model5y2 = 0;
-        response.model5y3 = 0;
-        // 
+        const growth = await this.predict(company, Indicator.Growth);
+        response.model5y1 = growth.x;
+        response.model5y2 = growth.y;
+        response.model5y3 = growth.z;
+        // TODO: Implement sektorNo
         response.sektorNo = 0;
 
         try {
@@ -122,39 +123,39 @@ export default class ModelRunner {
         response.ROE = company.ROE;
 
         // Eff
-        response.Eff_p_Sect = company.sektor_efektiivsus_protsentiil;
+        response.EffpSect = company.sektor_efektiivsus_protsentiil;
         response.Eff_n_Sect = 0;
-        response.Eff_p_Size = 0;
+        response.EffpSize = company.suurusklass_efektiivsus_protsentiil;
         response.Eff_n_Size = 0;
-        response.Eff_p_Count = 0;
+        response.EffpCount = company.maakond_efektiivsus_protsentiil;
         response.Eff_n_Count = 0;
         // Liq
-        response.Liq_p_Sect = 0;
+        response.LiqpSect = company.sektor_likviidsus_n;
         response.Liq_n_Sect = 0;
-        response.Liq_p_Size = 0;
+        response.LiqpSize = company.suurusklass_likviidsus_n;
         response.Liq_n_Size = 0;
-        response.Liq_p_Count = 0;
+        response.LiqpCount =  company.maakond_likviidsus_protsentiil;
         response.Liq_n_Count = 0;
         // Lev
-        response.Lev_p_Count = 0;
+        response.LevpCount = company.sektor_struktuur_protsentiil;
         response.Lev_n_Count = 0;
-        response.Lev_p_Size = 0;
+        response.LevpSize = company.suurusklass_struktuur_protsentiil;
         response.Lev_n_Size = 0;
-        response.Lev_p_Sect = 0;
+        response.LevpSect = company.maakond_struktuur_protsentiil;
         response.Lev_n_Sect = 0;
         // Ret
-        response.Ret_p_Count = 0;
+        response.RetpCount = company.sektor_tasuvus_protsentiil;
         response.Ret_n_Count = 0;
-        response.Ret_p_Size = 0;
+        response.RetpSize = company.suurusklass_tasuvus_protsentiil;
         response.Ret_n_Size = 0;
-        response.Ret_p_Sect = 0;
+        response.RetpSect = company.maakond_tasuvus_protsentiil;
         response.Ret_n_Sect = 0;
         // Emp
-        response.Emp_p_Count = 0;
+        response.EmppCount = company.Tooviljakuse_kasv;
         response.Emp_n_Count = 0;
-        response.Emp_p_Size = 0;
+        response.EmppSize = company.suurusklass_efektiivsus_protsentiil;
         response.Emp_n_Size = 0;
-        response.Emp_p_Sect = 0;
+        response.EmppSect = company.maakond_efektiivsus_protsentiil;
         response.Emp_n_Sect = 0;
         
         return response;
@@ -176,10 +177,38 @@ export default class ModelRunner {
     }
 
 
-    private async predict(companyData: CompanyData, model: Model): Promise<Prediction> {
+    private async predictGrowth(company: CompanyData) : Promise<Prediction> { 
+        const layer = await this.loadModel(company.Klaster, Indicator.Growth);
+
+        const growthData = getGrowthData();
+        const array3D = growthData.toArray3D();
+
+        const data = tf.reshape([...array3D.x, ...array3D.y, ...array3D.z], [3, 12]);
+
+        // Reshape the data to 3x12
+        // const reshaped = tf.reshape(tf.tensor(data), [3,12]);
+        const reshapedData = tf.reshape(data, [1, 12, 3]);  
+
+        // This has to be awaited
+        const prediction = layer.predict(reshapedData);
+        const dataSync = (prediction as tf.Tensor).dataSync();
+
+        return {
+            x: dataSync[0],
+            y: dataSync[1],
+            z: dataSync[2]
+        }
+    }
+
+
+    private async predict(companyData: CompanyData, indicator: Indicator): Promise<Prediction> {
+        if (indicator === Indicator.Growth) {
+            return this.predictGrowth(companyData);
+        } 
+
         const data = this.prepareData(companyData);
         const tensor = await this.tensor(data);
-        const loadedModel = await this.loadModel(companyData.Klaster, model);
+        const loadedModel = await this.loadModel(companyData.Klaster, indicator);
 
         // This has to be awaited
         const prediction = await (loadedModel.predict(tensor) as tf.Tensor);
@@ -191,6 +220,5 @@ export default class ModelRunner {
             z: dataSync[2]
         }
     }
-
     
 }

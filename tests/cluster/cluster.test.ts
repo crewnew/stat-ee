@@ -1,19 +1,18 @@
 import testCompanyResponse from './../company/company_test_data'
-import ClusterRepository from '../../src/cluster/cluster_repository'
-import ClusterEntity from '../../src/cluster/cluster_entity'
-import CompanyEntity from '../../src/company/company_entity'
+import ClusterEntity from '../../src/entities/cluster_entity'
+import CompanyEntity from '../../src/entities/company_entity'
+import {findMeaByCluster} from '../../src/data_sources/mea_static_data'
+import { findSdsByCluster } from '../../src/data_sources/sds_static_data'
 
 describe('Cluster', () => {
     test('should find mea by cluster name', () => {
-        const cluster = new ClusterRepository()
         const clusterName = 'k4_1'
-        const result = cluster.findMeaByCluster(clusterName)
+        const result = findMeaByCluster(clusterName)
         expect(result).toBeDefined()
     })
     test('should find sds by cluster name', () => {
-        const cluster = new ClusterRepository()
         const clusterName = 'k4_1'
-        const result = cluster.findSdsByCluster(clusterName)
+        const result = findSdsByCluster(clusterName)
         expect(result).toBeDefined()
     })
 

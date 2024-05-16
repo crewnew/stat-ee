@@ -2,7 +2,7 @@ import express, { Request, Response } from 'express';
 import { logger } from './utils/logger';
 import { sendError } from './utils/errors';
 import { ReasonPhrases } from 'http-status-codes';
-import ModelRunner from './model/model_runner';
+import ModelRunner from './predictor';
 
 
 const app = express();

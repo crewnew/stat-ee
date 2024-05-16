@@ -17,6 +17,14 @@ This repository implements an API that analyzes company registration numbers and
 * Uses the loaded model (`correct_model_on_disk`) to predict a result based on the processed data.
 * Returns the prediction result as a JSON response.
 
+**Converting .h5 to .json:**
+'''
+tensorflowjs_converter \              
+    --input_format=keras \
+    ./models/kasvu_k4_1.h5 \
+    ./models/kasvu_k4_1
+'''
+
 **Dependencies:**
 
 * This API utilizes libraries like:

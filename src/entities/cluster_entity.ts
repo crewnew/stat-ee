@@ -1,4 +1,4 @@
-import CompanyEntity from "../company/company_entity"
+import CompanyEntity from "./company_entity"
 import { logger } from "../utils/logger"
 import { clamp, clampBetween } from "../utils/value_clamp"
 import { JsonProperty, SerializableEntity } from "ts-jackson"

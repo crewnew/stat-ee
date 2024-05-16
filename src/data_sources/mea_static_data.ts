@@ -1,4 +1,15 @@
-export default [
+import ClusterEntity from "../entities/cluster_entity"
+
+export function findMeaByCluster(clusterName: string): ClusterEntity | undefined {
+    for (let cluster in staticData) {
+        if (staticData[cluster].klaster === clusterName) {
+            return ClusterEntity.deserialize(staticData[cluster])
+        }
+    }
+    return undefined
+}
+
+const staticData = [
     {
         "Kaibevarad": 1264534.138,
         "Raha": 263665.0973,

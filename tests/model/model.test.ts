@@ -1,10 +1,11 @@
-import { Model } from "../../src/model/model";
+import { Indicator } from "../../src/enums/indicator_enum";
 
 describe("Model", () => {
     test("should stringify to estonian", () => {
-        expect(Model.Liquidity).toBe("likviidsus");
-        expect(Model.Efficiency).toBe("efektiivsus");
-        expect(Model.Structure).toBe("struktuur");
-        expect(Model.Profitability).toBe("tasuvus");
+        expect(Indicator.Liquidity).toBe("likviidsus");
+        expect(Indicator.Efficiency).toBe("efektiivsus");
+        expect(Indicator.Structure).toBe("struktuur");
+        expect(Indicator.Profitability).toBe("tasuvus");
+        expect(Indicator.Growth).toBe("kasvu");
     });
 });

@@ -1,4 +1,15 @@
-export default [
+import ClusterEntity from "../entities/cluster_entity"
+
+export function findSdsByCluster(clusterName: string): ClusterEntity | undefined {
+    for (let cluster in staticData) {
+        if (staticData[cluster].klaster === clusterName) {
+            return ClusterEntity.deserialize(staticData[cluster])
+        }
+    }
+    return undefined
+}
+
+ const staticData =  [
     {
         "Kaibevarad": 7277586.418,
         "Raha": 1621619.419,
