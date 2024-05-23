@@ -181,28 +181,14 @@ export default class ModelRunner {
         const layer = await this.loadModel(company.Klaster, Indicator.Growth);
 
         const growthData = getGrowthData();
-        const array3D = growthData.toArray3D();
+        const array3D = growthData.clamp().toArray3D();
 
-        const data = tf.reshape([...array3D.x, ...array3D.y, ...array3D.z], [3, 12]);
-
-        // Reshape the data to 3x12
-        // const reshaped = tf.reshape(tf.tensor(data), [3,12]);
-        
-        const reshapedData = tf.reshape(data, [1, 12, 3]);  
-
-        // This has to be awaited
-        const prediction = layer.predict(reshapedData);
+        const flatArray = [...array3D.x, ...array3D.y, ...array3D.z];
+        console.log('Array Values: ', flatArray);
+        const x = tf.tensor(flatArray, [1, 12, 3]);
+        const prediction = await layer.predict(x);
         const dataSync = (prediction as tf.Tensor).dataSync();
-
-        // If the array is not 3d, it will throw an error
-        // [3, 12]
-        // ValueError: Error when checking : expected input_1 to have 3 dimension(s), but got array with shape [3,12]
-
-        // [1, 3, 12]
-        // ValueError: Error when checking : expected input_1 to have shape [null,12,3] but got array with shape [1,3,12].
-
-        // [1, 12, 3]
-        // Float32Array(3) [ 0, 0, 1 ]
+        console.log('Result: ', dataSync);
 
         return {
             x: dataSync[0],
