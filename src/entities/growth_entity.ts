@@ -76,10 +76,20 @@ export default class GrowthEntity extends SerializableEntity {
     @JsonProperty()
     tor_M_min1: number
 
+    public toArray() : number[]{
+        const array3D = this.toArray3D();
+        return [
+            ...array3D.x,
+            ...array3D.y,
+            ...array3D.z
+        ]
+    }
 
-
-    public toArray3D(): Array3D  {
-       return {
+    /// Regarding the naming of the features, the numbers should go in reverse order,
+    /// not as kmd_m_1...12 but as kmd_m12...kmd_m1.
+    //  The "m" stands for minus. So, "kmd_m12" means "kmd" from 12 months ago.
+    public toArray3D(): Array3D {
+        return {
             x: [
                 this.kmd_M_min12,
                 this.kmd_M_min11,

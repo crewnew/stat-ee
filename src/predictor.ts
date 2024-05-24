@@ -11,7 +11,7 @@ import { sendError } from "./utils/errors";
 import { Array3D, Prediction } from "./utils/interfaces";
 import {port} from "./app";
 
-import getGrowthData from "./data_sources/growth_static_data";
+import getTransformedData from "./data_sources/growth_static_data";
 export default class ModelRunner {
     public async handleRequest(req: Request, res: Response): Promise<any> {
         try {
@@ -176,25 +176,28 @@ export default class ModelRunner {
         return { min, max };
     }
 
-
-    private async predictGrowth(company: CompanyData) : Promise<Prediction> { 
+    private async predictGrowth(company: CompanyData): Promise<Prediction> {
+        // Load the pre-trained model layer for the specified cluster and indicator.
         const layer = await this.loadModel(company.Klaster, Indicator.Growth);
-
-        const growthData = getGrowthData();
-        const array3D = growthData.clamp().toArray3D();
-
-        const flatArray = [...array3D.x, ...array3D.y, ...array3D.z];
-        console.log('Array Values: ', flatArray);
-        const x = tf.tensor(flatArray, [1, 12, 3]);
-        const prediction = await layer.predict(x);
+        // Fetch the growth data required for prediction.
+        const flatArray = getTransformedData();
+        console.log('numbers', flatArray);
+        // Create a tensor from the flattened array.
+        const x = tf.tensor(flatArray, [36]);
+        // Reshape the tensor to the required shape [1, 12, 3].
+        const reshapedX = x.reshape([1, 12, 3]);
+        console.log('transformed', reshapedX);
+        // Make a prediction using the model layer and the reshaped tensor.
+        const prediction = await layer.predict(reshapedX);
+        // Synchronize the prediction data to a typed array.
         const dataSync = (prediction as tf.Tensor).dataSync();
-        console.log('Result: ', dataSync);
-
+        // Return the prediction results as an object with x, y, and z values.
+        console.log('result', dataSync);
         return {
             x: dataSync[0],
             y: dataSync[1],
             z: dataSync[2]
-        }
+        };
     }
 
 
