@@ -1,7 +1,7 @@
 import GrowthEntity from "../entities/growth_entity";
 
-export default function getGrowthData() {
-    return GrowthEntity.deserialize(staticData).clamp();
+export default function getGrowthData() : number[] {
+    return GrowthEntity.deserialize(staticData).clamp().toArray();
 }
 
 
