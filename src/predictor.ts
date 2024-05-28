@@ -186,8 +186,8 @@ export default class ModelRunner {
         const x = tf.tensor(flatArray, [36]);
         // Reshape the tensor to the required shape [1, 12, 3].
         const reshapedX = x.reshape([1, 12, 3]);
-        console.log('transformed', reshapedX);
-        // Make a prediction using the model layer and the reshaped tensor.
+        
+        tf.print(reshapedX,true) ;       // Make a prediction using the model layer and the reshaped tensor.
         const prediction = await layer.predict(reshapedX);
         // Synchronize the prediction data to a typed array.
         const dataSync = (prediction as tf.Tensor).dataSync();
