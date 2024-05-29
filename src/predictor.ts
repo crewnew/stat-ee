@@ -8,25 +8,29 @@ import ClusterEntity from "./entities/cluster_entity";
 import PredictionEntity from "./entities/response_entity";
 import { Request, Response } from "express";
 import { sendError } from "./utils/errors";
-import { Array3D, Prediction } from "./utils/interfaces";
+import {  Prediction } from "./utils/interfaces";
 import { port } from "./app";
 
-import getTransformedData from "./data_sources/growth_static_data";
+import getGrowthData from "./data_sources/growth_static_data";
+import { logger } from "./utils/logger";
 export default class ModelRunner {
   public async handleRequest(req: Request, res: Response): Promise<any> {
     try {
       const id = parseInt(req.params.id as string);
       let prediction = await this.response(id);
       const response = prediction.serialize();
-      res.send(response);
+      // For 200 OK responses, the body should directly include the actual data as defined by Palgastatistka.
+      res.send({response});
     } catch (error) {
       switch (error.message) {
+        case 'Insufficient data':
+          return sendError(res, "insufficient-data");
         case "Company not found":
           return sendError(res, "company-not-found");
         case "Cluster not found":
           return sendError(res, "cluster-not-found");
         default:
-          console.log(error);
+          logger.debug(error);
           return sendError(res, "bad-request");
       }
     }
@@ -67,6 +71,8 @@ export default class ModelRunner {
         "/model.json"
     );
   }
+
+ 
 
   private async response(registCo: number): Promise<PredictionEntity> {
     // TODO: Change this with findById when the query is implemented
@@ -188,18 +194,18 @@ export default class ModelRunner {
     // Load the pre-trained model layer for the specified cluster and indicator.
     const layer = await this.loadModel(company.Klaster, Indicator.Growth);
     // Fetch the growth data required for prediction.
-    const flatArray = getTransformedData();
-    console.log("numbers", flatArray);
+    const flatArray = getGrowthData();
+    logger.debug("numbers", flatArray);
     // Create a tensor from the flattened array.
     const x = tf.tensor(flatArray, [36]);
     // Reshape the tensor to the required shape [1, 12, 3].
     const reshapedX = x.reshape([1, 3, 12]);
     tf.print(reshapedX, true);
-    console.log("transformed", reshapedX);
+    logger.debug("transformed", reshapedX);
     // Transpose the tensor to match the expected shape [null, 12, 3].
     const transposedX = reshapedX.transpose([0, 2, 1]);
     tf.print(transposedX, true);
-    console.log("transposed", transposedX);
+    logger.debug("transposed", transposedX);
     // Make a prediction using the model layer and the transposed tensor.
     const prediction = await layer.predict(transposedX);
     // Synchronize the prediction data to a typed array.

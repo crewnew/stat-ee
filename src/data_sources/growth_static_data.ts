@@ -1,7 +1,11 @@
 import GrowthEntity from "../entities/growth_entity";
+import { checkMissingProperties } from "../utils/validator";
+
 
 export default function getGrowthData() : number[] {
-    return GrowthEntity.deserialize(staticData3).clamp().toArray();
+  const data =  GrowthEntity.deserialize(staticData3).clamp();
+  checkMissingProperties(data,3);
+  return data.toArray();
 }
 
 const staticData = {
@@ -134,9 +138,9 @@ const staticData3 = {
   OIG_GRUPP: "ETTEV",
   Sektor_nr: 21,
   Sektor: "Kultuuri ja vabaaja kaupade jaemüük",
-  kmd_M_min12: 1.5,
-  kmd_M_min11: 1.43,
-  kmd_M_min10: 1.38,
+  kmd_M_min12: null,
+  kmd_M_min11: null,
+  kmd_M_min10: null,
   kmd_M_min9: 1.33,
   kmd_M_min8: 1.31,
   kmd_M_min7: 1.28,
