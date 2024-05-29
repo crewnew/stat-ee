@@ -1,4 +1,4 @@
-// AASTASED
+// docs/sql-tables-columns/AASTASED.andmetüübid.xlsx
 
 import CompanyEntity from "../entities/company_entity";
 import cleanifyJson from "../utils/json_cleaner";
@@ -30,7 +30,7 @@ export async function findById(id: number): Promise<CompanyEntity> {
         }
     }
 }
-// aastased
+
 const staticData = cleanifyJson({
     "JYKOOD": 11344088,
     "AASTA": 2022,

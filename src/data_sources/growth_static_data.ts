@@ -1,4 +1,4 @@
-// andmetyybid_kuised - tab: kuised
+// docs/sql-tables-columns/andmetyybid_kuised.xlsx - tab: kuised
 
 import GrowthEntity from "../entities/growth_entity";
 
