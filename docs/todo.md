@@ -6,9 +6,11 @@
 * ~~Hansuga kohtumine~~
 * ~~Ülesande püstitus lühidalt~~
 * Hans saatis mudelid meilile ja https://mail.google.com/mail/u/1/#search/marre/FMfcgzGxSbvNCHtjhVNnkttbqZhJGWQZ
-* ~~ER välja mõelda~~
+* ~~ER välja mõelda~~ Hansuga koos
+* Gitlab šeeri
+* Hans kommenteeris failis
+* Kas meil on vaja kahte tabi andmetyybid_kuised.xlsx failist
 * Import (`SQL*Loader` vs `oracledb` ja JS script)
-* Installi Tensorflow [keras_2.13.0](https://github.com/tensorflow/tensorflow/releases/tag/v2.14.0)
 * [mudelid1 valjund](https://github.com/kvartiil/mudelid1valjund) - ei ole kõige hilisemad variandid, kuid töötavad ja katsetamiseks sobivad. JSON failis on struktuur kenasti kirjas, 64 sisendit peaks olema kõigil. Mis ma sellega teen?
 
 ## Ülesande püstitus

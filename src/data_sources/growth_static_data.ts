@@ -1,3 +1,5 @@
+// andmetyybid_kuised - tab: kuised
+
 import GrowthEntity from "../entities/growth_entity";
 
 export default function getGrowthData() : number[] {
