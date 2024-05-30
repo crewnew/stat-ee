@@ -1,4 +1,6 @@
 # stat-ee
+
+postgresql://ELUJOULISUSEINDEKS_owner:Ong8CMZX6twW@ep-mute-dew-a2tjdzxi.eu-central-1.aws.neon.tech/ELUJOULISUSEINDEKS?sslmode=require
  
 ## TODO
 
