@@ -5,6 +5,6 @@ let { ORACLE_HOST, ORACLE_DATABASE, ORACLE_USER, ORACLE_PASSWORD, ORACLE_SSL, OR
 
 
 export async function oracleQuery(textQuery: string, values: any[] | undefined): Promise<any> {
-   //
+   
 }
 

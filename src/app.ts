@@ -4,9 +4,9 @@ import { sendError } from './utils/errors';
 import { ReasonPhrases } from 'http-status-codes';
 import {handleVitality} from './routes';
 
+require('dotenv').config();
 
 const app = express();
-export const port = 80;
 app.use(require('express-status-monitor')());
 app.use('/static', express.static('models'))
 app.get('/eestat/1/elujoud/:id', async (req: Request, res: Response) => handleVitality(req, res));
@@ -24,6 +24,6 @@ app.use('*', (_req, res) => {
     return sendError(res, 'route-not-found');
 });
 
-app.listen(port, () => {
-    logger.info(`Running on port ${port}`);
+app.listen(8080, () => {
+    logger.info(`Running on port ${8080}`);
 });
