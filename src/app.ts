@@ -2,14 +2,14 @@ import express, { Request, Response } from 'express';
 import { logger } from './utils/logger';
 import { sendError } from './utils/errors';
 import { ReasonPhrases } from 'http-status-codes';
-import ModelRunner from './predictor';
+import handleEestat1ElujoudId from './routes/eestat/1/elujoud';
 
 
 const app = express();
 export const port = 80;
 app.use(require('express-status-monitor')());
 app.use('/static',express.static('models'))
-app.get('/eestat/1/elujoud/:id', async (req: Request, res: Response) => new ModelRunner().handleRequest(req, res));
+app.get('/eestat/1/elujoud/:id', async (req: Request, res: Response) => handleEestat1ElujoudId(req, res));
 
 /**
  * GET /healthz

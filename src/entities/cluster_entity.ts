@@ -1,142 +1,149 @@
-import CompanyEntity from "./company_entity"
 import { logger } from "../utils/logger"
 import { clamp, clampBetween } from "../utils/value_clamp"
 import { JsonProperty, SerializableEntity } from "ts-jackson"
+import {NormYearMean, NormYearSds, Yearly} from "../data_sources/remote_source"
 
 export default class ClusterEntity extends SerializableEntity {
     @JsonProperty()
-    Kaibevarad: number
+    kaibevarad: number
     @JsonProperty()
-    Raha: number
+    raha: number
     @JsonProperty()
-    Lyhiajalised_nouded: number
+    lyhiajalised_nouded: number
     @JsonProperty()
-    Lyhiajalised_finantsinvesteeringud: number
+    lyhiajalised_finantsinvesteeringud: number
     @JsonProperty()
-    Varud: number
+    varud: number
     @JsonProperty()
-    Pohivarad: number
+    pohivarad: number
     @JsonProperty()
-    Pikaajalised_nouded: number
+    pikaajalised_nouded: number
     @JsonProperty()
-    Pikaajalised_finantsinvesteeringud: number
+    pikaajalised_finantsinvesteeringud: number
     @JsonProperty()
-    Kinnisvarainvesteeringud: number
+    kinnisvarainvesteeringud: number
     @JsonProperty()
-    Materiaalne_pohivara: number
+    materiaalne_pohivara: number
     @JsonProperty()
-    Immateriaalne_pohivara: number
+    immateriaalne_pohivara: number
     @JsonProperty()
-    Varad_kokku: number
+    varad_kokku: number
     @JsonProperty()
-    Lyhiajalised_kohustused: number
+    lyhiajalised_kohustused: number
     @JsonProperty()
-    Lyhiajalised_volad: number
+    lyhiajalised_volad: number
     @JsonProperty()
-    Lyhiajalised_laenud: number
+    lyhiajalised_laenud: number
     @JsonProperty()
-    Pikaajalised_kohustused: number
+    pikaajalised_kohustused: number
     @JsonProperty()
-    Pikaajalised_volad: number
+    pikaajalised_volad: number
     @JsonProperty()
-    Pikaajalised_laenud: number
+    pikaajalised_laenud: number
     @JsonProperty()
-    Kohustused_kokku: number
+    kohustused_kokku: number
     @JsonProperty()
-    Omakapital: number
+    omakapital: number
     @JsonProperty()
-    Kohustused_Omakapital_kokku: number
+    kohustused_Omakapital_kokku: number
     @JsonProperty()
-    Myygitulu: number
+    myygitulu: number
     @JsonProperty()
-    Muud_aritulud: number
+    muud_aritulud: number
     @JsonProperty()
-    Muud_arikulud: number
+    muud_arikulud: number
     @JsonProperty()
-    Toojoukulud: number
+    toojoukulud: number
     @JsonProperty()
-    Arikasum: number
+    arikasum: number
     @JsonProperty()
-    Intressikulud: number
+    intressikulud: number
     @JsonProperty()
-    Aruandeaasta_kasum: number
+    aruandeaasta_kasum: number
     @JsonProperty()
-    ds_Kaibevarad: number
+    ds_kaibevarad: number
     @JsonProperty()
-    ds_Raha: number
+    ds_raha: number
     @JsonProperty()
-    ds_Lyhiajalised_nouded: number
+    ds_lyhiajalised_nouded: number
     @JsonProperty()
-    ds_Lyhiajalised_finantsinvesteeringud: number
+    ds_lyhiajalised_finantsinvesteeringud: number
     @JsonProperty()
-    ds_Varud: number
+    ds_varud: number
     @JsonProperty()
-    ds_Pohivarad: number
+    ds_pohivarad: number
     @JsonProperty()
-    ds_Pikaajalised_nouded: number
+    ds_pikaajalised_nouded: number
     @JsonProperty()
-    ds_Pikaajalised_finantsinvesteeringud: number
+    ds_pikaajalised_finantsinvesteeringud: number
     @JsonProperty()
-    ds_Kinnisvarainvesteeringud: number
+    ds_kinnisvarainvesteeringud: number
     @JsonProperty()
-    ds_Materiaalne_pohivara: number
+    ds_materiaalne_pohivara: number
     @JsonProperty()
-    ds_Immateriaalne_pohivara: number
+    ds_immateriaalne_pohivara: number
     @JsonProperty()
-    ds_Varad_kokku: number
+    ds_varad_kokku: number
     @JsonProperty()
-    ds_Lyhiajalised_kohustused: number
+    ds_lyhiajalised_kohustused: number
     @JsonProperty()
-    ds_Lyhiajalised_volad: number
+    ds_lyhiajalised_volad: number
     @JsonProperty()
-    ds_Lyhiajalised_laenud: number
+    ds_lyhiajalised_laenud: number
     @JsonProperty()
-    ds_Pikaajalised_kohustused: number
+    ds_pikaajalised_kohustused: number
     @JsonProperty()
-    ds_Pikaajalised_volad: number
+    ds_pikaajalised_volad: number
     @JsonProperty()
-    ds_Pikaajalised_laenud: number
+    ds_pikaajalised_laenud: number
     @JsonProperty()
-    ds_Kohustused_kokku: number
+    ds_kohustused_kokku: number
     @JsonProperty()
-    ds_Omakapital: number
+    ds_omakapital: number
     @JsonProperty()
-    ds_Kohustused_Omakapital_kokku: number
+    ds_kohustused_Omakapital_kokku: number
     @JsonProperty()
-    ds_Myygitulu: number
+    ds_myygitulu: number
     @JsonProperty()
-    ds_Muud_aritulud: number
+    ds_muud_aritulud: number
     @JsonProperty()
-    ds_Muud_arikulud: number
+    ds_muud_arikulud: number
     @JsonProperty()
-    ds_Toojoukulud: number
+    ds_toojoukulud: number
     @JsonProperty()
-    ds_Arikasum: number
+    ds_arikasum: number
     @JsonProperty()
-    ds_Intressikulud: number
+    ds_intressikulud: number
     @JsonProperty()
-    ds_Aruandeaasta_kasum: number
+    ds_aruandeaasta_kasum: number
     @JsonProperty()
-    SKP_jooksevhindades: number
+    skp_jooksevhindades: number
     @JsonProperty()
-    SKP_nominaalkasv: number
+    skp_nominaalkasv: number
     @JsonProperty()
-    SKP_pysivhindades: number
+    skp_pysivhindades: number
     @JsonProperty()
-    SKP_reaalkasv: number
+    skp_reaalkasv: number
     @JsonProperty()
-    Tarbijahinnaindeks: number
+    tarbijahinnaindeks: number
     @JsonProperty()
-    Keskmine_kuupalk: number
+    keskmine_kuupalk: number
     @JsonProperty()
-    Palgakasv: number
+    palgakasv: number
     @JsonProperty()
-    Tooviljakuse_kasv: number
+    tooviljakuse_kasv: number
 
     // Using the `JsonProperty` decorator to map the JSON keys to the class properties.
-    static fromCompany(company: CompanyEntity): ClusterEntity {
-        const jsonCompany = company.serialize();
-        return ClusterEntity.deserialize(jsonCompany).clamp();
+    static fromYearly(yearly: Yearly): ClusterEntity {
+        return ClusterEntity.deserialize(yearly.serialize()).clamp();
+    }
+
+    static fromNormYearMean(normYearMean: NormYearMean): ClusterEntity {
+        return ClusterEntity.deserialize(normYearMean.serialize()).clamp();
+    }
+
+    static fromNormYearSds(normYearSds: NormYearSds): ClusterEntity {
+        return ClusterEntity.deserialize(normYearSds.serialize()).clamp();
     }
 
     // Divides each field by the corresponding `sds` value based on the cluster.
@@ -163,32 +170,32 @@ export default class ClusterEntity extends SerializableEntity {
 
     // Caps each retrieved value based on a separate table defining maximum values for each field.
     private clamp(): ClusterEntity {
-        this.Kaibevarad = clamp(this.Kaibevarad, 250000000);
-        this.Raha = clamp(this.Raha, 50000000);
-        this.Lyhiajalised_nouded = clamp(this.Lyhiajalised_nouded, 250000000);
-        this.Lyhiajalised_finantsinvesteeringud = clamp(this.Lyhiajalised_finantsinvesteeringud, 25000000);
-        this.Varud = clamp(this.Varud, 75000000);
-        this.Pohivarad = clamp(this.Pohivarad, 250000000);
-        this.Pikaajalised_nouded = clamp(this.Pikaajalised_nouded, 250000000);
-        this.Pikaajalised_finantsinvesteeringud = clamp(this.Pikaajalised_finantsinvesteeringud, 325000000);
-        this.Kinnisvarainvesteeringud = clamp(this.Kinnisvarainvesteeringud, 50000000);
-        this.Materiaalne_pohivara = clamp(this.Materiaalne_pohivara, 250000000);
-        this.Immateriaalne_pohivara = clamp(this.Immateriaalne_pohivara, 25000000);
-        this.Varad_kokku = clamp(this.Varad_kokku, 350000000);
-        this.Lyhiajalised_kohustused = clamp(this.Lyhiajalised_kohustused, 100000000);
-        this.Lyhiajalised_volad = clamp(this.Lyhiajalised_volad, 75000000);
-        this.Pikaajalised_kohustused = clamp(this.Pikaajalised_kohustused, 100000000);
-        this.Pikaajalised_volad = clamp(this.Pikaajalised_volad, 75000000);
-        this.Pikaajalised_laenud = clamp(this.Pikaajalised_laenud, 150000000);
-        this.Omakapital = clamp(this.Omakapital, 250000000);
-        this.Kohustused_Omakapital_kokku = clamp(this.Kohustused_Omakapital_kokku, 350000000);
-        this.Myygitulu = clamp(this.Myygitulu, 150000000);
-        this.Muud_aritulud = clamp(this.Muud_aritulud, 150000000);
-        this.Muud_arikulud = clamp(this.Muud_arikulud, 5000000);
-        this.Toojoukulud = clamp(this.Toojoukulud, 15000000);
-        this.Intressikulud = clamp(this.Intressikulud, 7500000);
-        this.Arikasum = clampBetween(this.Arikasum, -125000000, 250000000);
-        this.Aruandeaasta_kasum = clampBetween(this.Aruandeaasta_kasum, -125000000, 125000000);
+        this.kaibevarad = clamp(this.kaibevarad, 250000000);
+        this.raha = clamp(this.raha, 50000000);
+        this.lyhiajalised_nouded = clamp(this.lyhiajalised_nouded, 250000000);
+        this.lyhiajalised_finantsinvesteeringud = clamp(this.lyhiajalised_finantsinvesteeringud, 25000000);
+        this.varud = clamp(this.varud, 75000000);
+        this.pohivarad = clamp(this.pohivarad, 250000000);
+        this.pikaajalised_nouded = clamp(this.pikaajalised_nouded, 250000000);
+        this.pikaajalised_finantsinvesteeringud = clamp(this.pikaajalised_finantsinvesteeringud, 325000000);
+        this.kinnisvarainvesteeringud = clamp(this.kinnisvarainvesteeringud, 50000000);
+        this.materiaalne_pohivara = clamp(this.materiaalne_pohivara, 250000000);
+        this.immateriaalne_pohivara = clamp(this.immateriaalne_pohivara, 25000000);
+        this.varad_kokku = clamp(this.varad_kokku, 350000000);
+        this.lyhiajalised_kohustused = clamp(this.lyhiajalised_kohustused, 100000000);
+        this.lyhiajalised_volad = clamp(this.lyhiajalised_volad, 75000000);
+        this.pikaajalised_kohustused = clamp(this.pikaajalised_kohustused, 100000000);
+        this.pikaajalised_volad = clamp(this.pikaajalised_volad, 75000000);
+        this.pikaajalised_laenud = clamp(this.pikaajalised_laenud, 150000000);
+        this.omakapital = clamp(this.omakapital, 250000000);
+        this.kohustused_Omakapital_kokku = clamp(this.kohustused_Omakapital_kokku, 350000000);
+        this.myygitulu = clamp(this.myygitulu, 150000000);
+        this.muud_aritulud = clamp(this.muud_aritulud, 150000000);
+        this.muud_arikulud = clamp(this.muud_arikulud, 5000000);
+        this.toojoukulud = clamp(this.toojoukulud, 15000000);
+        this.intressikulud = clamp(this.intressikulud, 7500000);
+        this.arikasum = clampBetween(this.arikasum, -125000000, 250000000);
+        this.aruandeaasta_kasum = clampBetween(this.aruandeaasta_kasum, -125000000, 125000000);
 
         return this;
     }
