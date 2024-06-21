@@ -1,15 +1,15 @@
 import express, { Request, Response } from 'express';
-import { logger } from './utils/logger';
-import { sendError } from './utils/errors';
+import { sendError, handle } from './application';
 import { ReasonPhrases } from 'http-status-codes';
-import {handleVitality} from './routes';
 
 require('dotenv').config();
+
+export const port = 3000;
 
 const app = express();
 app.use(require('express-status-monitor')());
 app.use('/static', express.static('models'))
-app.get('/eestat/1/elujoud/:id', async (req: Request, res: Response) => handleVitality(req, res));
+app.get('/eestat/1/elujoud/:id', async (req: Request, res: Response) => handle(req, res));
 
 /**
  * GET /healthz
@@ -24,6 +24,6 @@ app.use('*', (_req, res) => {
     return sendError(res, 'route-not-found');
 });
 
-app.listen(8080, () => {
-    logger.info(`Running on port ${8080}`);
+app.listen(port, () => {
+    console.log(`Running on port ${port}`);
 });
