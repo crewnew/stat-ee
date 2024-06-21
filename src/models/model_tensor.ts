@@ -1,7 +1,7 @@
 import * as tf from "@tensorflow/tfjs";
 import { ModelIndicator } from "./model_indicator";
-import ClusterEntity from "../entities/cluster_entity";
-import PredictionResponse from "../entities/prediction_response";
+import {ClusterEntity} from "../entities/cluster_entity";
+import {PredictionResponse} from "../entities/prediction_response";
 import { Prediction } from "../utils/interfaces";
 import { port } from "../app";
 

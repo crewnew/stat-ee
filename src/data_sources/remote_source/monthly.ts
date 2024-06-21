@@ -1,6 +1,5 @@
-import GrowthEntity from "src/entities/growth_entity";
-import { checkMissingProperties } from "src/utils";
 import { JsonProperty, SerializableEntity } from "ts-jackson";
+import { checkMissingProperties, GrowthEntity } from "../../";
 
 
 export async function getMonthly(klaster: string): Promise<Monthly> {

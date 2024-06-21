@@ -3,7 +3,7 @@ import { clamp, clampBetween } from "../utils/value_clamp"
 import { JsonProperty, SerializableEntity } from "ts-jackson"
 import {NormYearMean, NormYearSds, Yearly} from "../data_sources/remote_source"
 
-export default class ClusterEntity extends SerializableEntity {
+export  class ClusterEntity extends SerializableEntity {
     @JsonProperty()
     kaibevarad: number
     @JsonProperty()

@@ -2,7 +2,7 @@
   "include": [
     "src/*.ts",
     "tests/*.ts"
-, "src/model/model_tensor.ts"   ],
+   ],
   "exclude": [
     "node_modules",
   ],

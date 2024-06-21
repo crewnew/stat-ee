@@ -1,6 +1,6 @@
 import { JsonProperty, SerializableEntity } from "ts-jackson"
 
-export default class PredictionResponse extends SerializableEntity {
+export  class PredictionResponse extends SerializableEntity {
     @JsonProperty()
     model1y1: number
     @JsonProperty()

@@ -40,5 +40,3 @@ function convertAllModels() {
         convertFiles(model);
     });
 }
-
-convertAllModels();

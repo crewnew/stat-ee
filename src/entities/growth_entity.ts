@@ -2,7 +2,7 @@ import { JsonProperty, SerializableEntity } from "ts-jackson"
 import { clamp, clampBetween } from "../utils/value_clamp"
 import { Array3D } from "../utils/interfaces"
 
-export default class GrowthEntity extends SerializableEntity {
+export  class GrowthEntity extends SerializableEntity {
     @JsonProperty()
     kmd_m_min12: number;
     @JsonProperty()
