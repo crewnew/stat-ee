@@ -1,10 +1,10 @@
 # Stat-ee
 
-**Note:** Due to limitations on access to Oracle and unsuccessful cloud signups, the development of this project was initially carried out using PostgreSQL. The instructions provided here have not been tested with Oracle XE on Arm MacOS as intended. Developers encountering issues when migrating to Oracle are advised to provide detailed error messages for troubleshooting assistance.
+**Note:** Due to limitations on access to Oracle and unsuccessful cloud signups, the development of this project was initially carried out using PostgreSQL. The instructions provided here have not been tested with Oracle XE on Arm MacOS as intended. Developers which are encountering issues when migrating to Oracle are advised to provide detailed error messages for troubleshooting assistance.
 
 ## Setup Guide for Stat-ee
 
-This guide will walk you through the setup process for the Stat-ee project on your local environment using PostgreSQL as a substitute for Oracle.
+This guide will walk you through the setup process for the Stat-ee project on your local environment using PostgreSQL\Oracle.
 
 ### Prerequisites
 
@@ -39,11 +39,11 @@ Build and start the Docker containers:
 
 ```bash
 docker-compose up --build
-````
+```
 
 This command builds the Docker image and starts the containers as defined in docker-compose.yml. The application will be running on port 3000 by default.
 
-### 4. Install Dependencies
+### Install Dependencies
 
 While the Docker container usually handles this automatically, you can manually install the project dependencies if necessary:
 
@@ -51,7 +51,7 @@ While the Docker container usually handles this automatically, you can manually 
 npm install
 ```
 
-### 5. Running the Application
+### Running the Application
 
 With Docker, the application should start automatically after the containers are up. However, if you're running the application locally:
 
@@ -60,7 +60,7 @@ npm start
 ```
 This command will build the TypeScript files and then start the application.
 
-### 6. Accessing the Application
+### Accessing the Application
 
 Once the application is running, access it by navigating to http://localhost:3000 in your web browser (or the port you configured).
 

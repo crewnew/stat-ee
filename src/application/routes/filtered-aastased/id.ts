@@ -1,11 +1,10 @@
 import { Request, Response } from 'express';
-import {  sendError } from '../../../../utils';
-import { ModelService } from '../../../../../application';
+import { ModelService, sendError } from '../../../application';
 
 export default async function handle(req: Request, res: Response): Promise<any> {
     try {
         const jykood = parseInt(req.params.id as string);
-        let response = await new ModelService().predictJykood(jykood);
+        let response = await new ModelService().predictJykood(jykood,0.9);
         res.send({ response: response });
     } catch (error) {
         console.log(error);

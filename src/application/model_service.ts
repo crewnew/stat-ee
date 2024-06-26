@@ -50,8 +50,8 @@ export class ModelService {
     return dividedData;
   }
 
-  async predictJykood(jykood: number): Promise<any>{
-    const yearly = await this.repository.getJykood(jykood);
+  async predictJykood(jykood: number, landPercent?: number | undefined): Promise<any>{
+    const yearly = await this.repository.getJykood(jykood, landPercent);
     let prediction = await this.response(yearly);
     // For 200 OK responses, the body should directly include the actual data as defined by Palgastatistka.
     const response = {

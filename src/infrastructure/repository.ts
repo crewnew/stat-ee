@@ -37,7 +37,7 @@ export class Repository {
         const oracle = `
             SELECT *
                 FROM elujoulisuseindeks.norm_aasta_sds_uus
-                WHERE klaster = ${klaster}
+                WHERE klaster = '${klaster}'
             FETCH FIRST 1 ROWS ONLY;
         `
         const response = await dbQuery(pg, oracle);
@@ -56,7 +56,7 @@ export class Repository {
         const oracle = `
             SELECT *
                 FROM elujoulisuseindeks.norm_aasta_kesk_uus
-                WHERE klaster = ${klaster}
+                WHERE klaster = '${klaster}'
             FETCH FIRST 1 ROWS ONLY;
         `
         const response = await dbQuery(pg, oracle);
@@ -69,13 +69,13 @@ export class Repository {
         const pg = `
             SELECT *
                 FROM "elujoulisuseindeks"."kuised"
-                WHERE "klaster" = '${klaster}' 
+                WHERE "klaster" = 'a' 
             LIMIT 1;
         `
         const oracle = `
             SELECT *
                 FROM elujoulisuseindeks.kuised
-                WHERE klaster = ${klaster}
+                WHERE klaster = '${klaster}'
             FETCH FIRST 1 ROWS ONLY;
         `
         const response = await dbQuery(pg, oracle);
