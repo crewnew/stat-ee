@@ -64,6 +64,15 @@ This command will build the TypeScript files and then start the application.
 
 Once the application is running, access it by navigating to http://localhost:3000 in your web browser (or the port you configured).
 
+#### Routes
+```http
+GET /eestat/1/elujoud/:id - Get a specific elujoud by ID
+```
+
+```http
+GET /filtered-aastased/:id - Get a specific aastased by ID with maa_protsent > 0.9
+```
+
 
 ### Prediction Model Assignments
 
